@@ -1,0 +1,15 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
+    </style>
+
+  <!--    // Sample for adding font style for Android-->
+      <style name="pixarRegular">
+          <item name="android:fontFamily">@font/pixar</item>
+          <item name="fontFamily">@font/pixar</item>
+      </style>
+
+</resources>
