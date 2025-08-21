@@ -23,7 +23,7 @@ flipper_config = FlipperConfiguration.disabled
 target 'NuggetRNExample' do
   config = use_native_modules!
 
-  pod 'NuggetSDK', :git => 'https://github.com/pranavzmt/nugget-sdk-ios.git', :tag => '99.0.7'
+  pod 'NuggetSDK', :git => 'https://github.com/Zomato-Nugget/nugget-sdk-ios.git', :tag => '99.0.7'
   use_react_native!(
     :path => config[:reactNativePath],
     # Enables Flipper.
