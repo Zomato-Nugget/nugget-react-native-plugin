@@ -17,7 +17,7 @@ A React Native SDK for integrating Nugget's functionality into your mobile appli
 ## Installation
 
 ```bash
-yarn add nugget-sdk@https://github.com/pranavzmt/react-native-nugget-sdk.git
+yarn add nugget-sdk@https://github.com/Zomato-Nugget/nugget-react-native-plugin.git
 ```
 
 ## Setup
@@ -25,7 +25,7 @@ yarn add nugget-sdk@https://github.com/pranavzmt/react-native-nugget-sdk.git
 ### iOS Setup
 1. Add the following to your `Podfile`:
 ```ruby
-pod 'NuggetSDK', :git => 'https://github.com/Zomato-Nugget/nugget-sdk-ios', :tag => '99.0.7'
+pod 'NuggetSDK', :git => 'https://github.com/Zomato-Nugget/nugget-sdk-ios', :tag => '99.0.8'
 ```
 
 2. Install the pods:
