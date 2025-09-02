@@ -36,6 +36,7 @@ import com.facebook.react.bridge.ReadableArray
 import android.content.Context
 import android.os.Bundle
 import com.zomato.ui.atomiclib.data.ColorData
+import androidx.appcompat.app.AppCompatDelegate
 
 class NuggetRN(private val reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext), ActivityEventListener {
@@ -61,6 +62,8 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   private var httpCode : Int? = null
 
   private var isInitialized = false
+
+  private var isDarkModeEnabledForClient = false
 
   companion object {
     const val NAME = "NuggetRN"
@@ -102,6 +105,8 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
       darkModeAccentColorTint = darkModeAccentColorData?.getString("tint") ?: null
       darkModeAccentColorType = darkModeAccentColorData?.getString("type") ?: null
       darkModeAccentColorHex = darkModeAccentColorData?.getString("hex") ?: null
+
+      isDarkModeEnabledForClient = isDarkModeEnabled ?: false
 
       val fontMapping = fontData?.getMap("fontMapping")
 
@@ -157,7 +162,11 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
           }
 
           override fun isDarkModeEnabled(): Boolean {
-            return isDarkModeEnabled == true
+            when(isDarkModeEnabledForClient){
+              true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+              else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            }
+            return isDarkModeEnabledForClient
           }
 
         }, initConfig = ChatSdkInitConfig(
