@@ -36,6 +36,7 @@ import com.facebook.react.bridge.ReadableArray
 import android.content.Context
 import android.os.Bundle
 import com.zomato.ui.atomiclib.data.ColorData
+import androidx.appcompat.app.AppCompatDelegate
 
 class NuggetRN(private val reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext), ActivityEventListener {
@@ -157,6 +158,10 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
           }
 
           override fun isDarkModeEnabled(): Boolean {
+            when(isDarkModeEnabled){
+              true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+              else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            }
             return isDarkModeEnabled == true
           }
 
