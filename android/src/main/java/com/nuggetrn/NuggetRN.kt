@@ -63,6 +63,8 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
 
   private var isInitialized = false
 
+  private var isDarkModeEnabledForClient = false
+
   companion object {
     const val NAME = "NuggetRN"
   }
@@ -103,6 +105,8 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
       darkModeAccentColorTint = darkModeAccentColorData?.getString("tint") ?: null
       darkModeAccentColorType = darkModeAccentColorData?.getString("type") ?: null
       darkModeAccentColorHex = darkModeAccentColorData?.getString("hex") ?: null
+
+      isDarkModeEnabledForClient = isDarkModeEnabled ?: false
 
       val fontMapping = fontData?.getMap("fontMapping")
 
@@ -158,11 +162,11 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
           }
 
           override fun isDarkModeEnabled(): Boolean {
-            when(isDarkModeEnabled){
+            when(isDarkModeEnabledForClient){
               true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
               else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             }
-            return isDarkModeEnabled == true
+            return isDarkModeEnabledForClient
           }
 
         }, initConfig = ChatSdkInitConfig(
