@@ -2,7 +2,7 @@ buildscript {
 
   repositories {
     google()
-//    mavenLocal()
+    mavenLocal()
     mavenCentral()
   }
 
@@ -50,7 +50,7 @@ android {
 }
 
 repositories {
-//  mavenLocal()
+  mavenLocal()
   mavenCentral()
   google()
 }
