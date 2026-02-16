@@ -95,6 +95,9 @@ export const NuggetSDKProvider: React.FC<NuggetSDKProviderProps> = ({
         const nuggetSDKInstance = NuggetSDK.getInstance(sdkConfig, chatSupportBusinessContext , handleDeeplinkInsideApp , lightModeAccentColorData , darkModeAccentColorData , fontData , isDarkModeEnabled);
         const authDelegate = new NuggetAuthProviderImpl('');
         nuggetSDKInstance.setAuthDelegate(authDelegate);
+        nuggetSDKInstance.setChatScreenClosedCallback(() => {
+            console.log('Chat screen closed');
+        });
         return nuggetSDKInstance;
     }, [nameSpace, initialAuthToken]);
 

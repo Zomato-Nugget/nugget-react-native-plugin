@@ -77,8 +77,9 @@ export class NuggetSDK {
     static #pendingNotificationPermissionStatus: boolean | null = null;
     private config: NuggetJumborConfiguration;
     private authDelegate: NuggetAuthProvider | null = null;
-    private eventEmitter: NativeEventEmitter;
+    private eventEmitter: NativeEventEmitter | null;
     private eventSubscription: any;
+    private chatScreenClosedCallback: (() => void) | null = () => {};
 
     private constructor(config: NuggetJumborConfiguration, chatSupportBusinessContext: NuggetChatBusinessContext, handleDeeplinkInsideApp : boolean , lightModeAccentColorData? : AccentColorData , darkModeAccentColorData? : AccentColorData , fontData? : FontData , isDarkModeEnabled? : boolean) {
         this.config = config;
@@ -108,6 +109,9 @@ export class NuggetSDK {
                         case 'triggerDeeplinkInApp':
                             result = this.triggerDeeplink(payload?.deeplink ?? '');
                             break;
+                        case 'onChatScreenClosed':
+                            result = this.chatScreenClosedCallback?.();
+                            return;
                         default:
                             console.warn(`Unknown method received: ${method}`);
                             result = { error: 'Unknown method' };
@@ -173,7 +177,7 @@ export class NuggetSDK {
              NuggetSDK.instance = null;
          }
 
-         NuggetSDK.instance = new NuggetSDK(config, chatSupportBusinessContext , handleDeeplinkInsideApp , lightModeAccentColorData , darkModeAccentColorData ,  fontData , isDarkModeEnabled);
+         NuggetSDK.instance = new NuggetSDK(config, chatSupportBusinessContext , handleDeeplinkInsideApp ?? false , lightModeAccentColorData , darkModeAccentColorData ,  fontData , isDarkModeEnabled);
          return NuggetSDK.instance;
     }
 
@@ -240,6 +244,10 @@ export class NuggetSDK {
       }
 
       NuggetPlugin.updateBusinessContext(chatSupportBusinessContext);
+    }
+
+    public setChatScreenClosedCallback(callback: () => void) {
+        this.chatScreenClosedCallback = callback;
     }
 
 }

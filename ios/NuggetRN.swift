@@ -110,7 +110,9 @@ class NuggetRN: RCTEventEmitter {
                                darkModeAccentColorData: [String: Any]?,
                                fontData: [String: Any]?,
                                isDarkModeEnabled: NSNumber?) {
-    clientNuggetSDKConfiguration = ClientNuggetSDKConfiguration(configuration: sdkConfiguration, handleDeeplinkInsideApp: handleDeeplinkInsideApp, accentColorData: lightModeAccentColorData, fontData: fontData)
+    clientNuggetSDKConfiguration = ClientNuggetSDKConfiguration(configuration: sdkConfiguration, handleDeeplinkInsideApp: handleDeeplinkInsideApp, accentColorData: lightModeAccentColorData, fontData: fontData, onChatScreenClosed: { [weak self] in
+     self?.requestValueFromJS(method: "onChatScreenClosed", payload: [:], completion: nil)
+    })
     clientSideNuggetChatBusinessContextDelegate = ClientSideNuggetChatBusinessContextProvider(params: chatSupportBusinessContext)
     clientSideThemeProviderDelegate = ClientSideNuggetThemeProvider(lightModeAccentColorData: lightModeAccentColorData, darkModeAccentColorData: darkModeAccentColorData, isDarkModeEnabled: isDarkModeEnabled)
     nuggetFactory = NuggetSDK.initializeNuggetFactory(
@@ -179,9 +181,11 @@ class NuggetRN: RCTEventEmitter {
   }
 
   func requestValueFromJS(
-    method: String, payload: [String: Any], completion: @escaping (Any) -> Void
+    method: String, payload: [String: Any], completion: ((Any) -> Void)? = nil
   ) {
-    pendingCompletions[method] = completion
+    if let completion {
+      pendingCompletions[method] = completion
+    }
     sendEvent(
       withName: "OnNativeRequest",
       body: [
@@ -246,7 +250,7 @@ extension NuggetRN: NuggetAuthProviderDelegate {
 // MARK: SDK config requirements
 private struct ClientNuggetSDKConfiguration: NuggetSDKConfigurationDelegate {
   func chatScreenClosedCallback() {
-    print("chat screen closed")
+    self.onChatScreenClosed?()
   }
 
   init() { }
@@ -255,12 +259,14 @@ private struct ClientNuggetSDKConfiguration: NuggetSDKConfigurationDelegate {
   private var handleDeeplinkInsideApp: NSNumber?
   private var accentColorData: [String: Any]?
   private var fontData: [String: Any]?
+  private var onChatScreenClosed: (() -> Void)?
 
-  init(configuration: [String: Any], handleDeeplinkInsideApp: NSNumber?, accentColorData: [String: Any]?, fontData: [String: Any]?) {
+  init(configuration: [String: Any], handleDeeplinkInsideApp: NSNumber?, accentColorData: [String: Any]?, fontData: [String: Any]?, onChatScreenClosed: (() -> Void)?) {
     self.configuration = configuration
     self.handleDeeplinkInsideApp = handleDeeplinkInsideApp
     self.accentColorData = accentColorData
     self.fontData = fontData
+    self.onChatScreenClosed = onChatScreenClosed
   }
 
   private func createSDKConfigObjectFromDictionary( dictionary: [String: Any]?) -> NuggetJumboConfiguration {
