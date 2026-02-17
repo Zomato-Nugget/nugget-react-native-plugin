@@ -169,6 +169,10 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
             return isDarkModeEnabledForClient
           }
 
+          override fun onChatExit(isChatResolved: Boolean, lastChatDeeplink: String) {
+            sendEventToJS(method = "onChatScreenClosed")
+          }
+
         }, initConfig = ChatSdkInitConfig(
           namespace = nameSpace ?: "",
           handleDeeplinkInApp = handleDeeplinkInsideTheApp ?: false,
