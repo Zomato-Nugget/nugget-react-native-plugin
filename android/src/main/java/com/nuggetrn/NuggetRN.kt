@@ -43,23 +43,23 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
 
   private val pendingResponses = ConcurrentHashMap<String, CompletableDeferred<ReadableMap>>()
 
-  private var channelHandle : String? = null
-  private var ticketGroupingId : String? = null
-  private var ticketProperties : HashMap<String , ArrayList<String>>? = null
-  private var botProperties : HashMap<String , ArrayList<String>>? = null
-  private var nameSpace : String? = null
+  private var channelHandle: String? = null
+  private var ticketGroupingId: String? = null
+  private var ticketProperties: HashMap<String, ArrayList<String>>? = null
+  private var botProperties: HashMap<String, ArrayList<String>>? = null
+  private var nameSpace: String? = null
 
-  private var handleDeeplinkInsideTheApp : Boolean? = null
-  private var lightModeAccentColorTint : String? = null
-  private var lightModeAccentColorType : String? = null
-  private var lightModeAccentColorHex : String? = null
+  private var handleDeeplinkInsideTheApp: Boolean? = null
+  private var lightModeAccentColorTint: String? = null
+  private var lightModeAccentColorType: String? = null
+  private var lightModeAccentColorHex: String? = null
 
-  private var darkModeAccentColorTint : String? = null
-  private var darkModeAccentColorType : String? = null
-  private var darkModeAccentColorHex : String? = null
+  private var darkModeAccentColorTint: String? = null
+  private var darkModeAccentColorType: String? = null
+  private var darkModeAccentColorHex: String? = null
 
-  private var currentAccessToken : String? = null
-  private var httpCode : Int? = null
+  private var currentAccessToken: String? = null
+  private var httpCode: Int? = null
 
   private var isInitialized = false
 
@@ -67,6 +67,10 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
 
   companion object {
     const val NAME = "NuggetRN"
+  }
+
+  init {
+    reactContext.addActivityEventListener(this)
   }
 
   override fun getName(): String {
@@ -77,11 +81,11 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   fun initializeNuggetFactory(
     jumboConfiguration: ReadableMap?,
     businessContext: ReadableMap?,
-    handleDeeplinkInsideApp : Boolean?,
-    lightModeAccentColorData : ReadableMap?,
-    darkModeAccentColorData : ReadableMap?,
-    fontData : ReadableMap?,
-    isDarkModeEnabled : Boolean?,
+    handleDeeplinkInsideApp: Boolean?,
+    lightModeAccentColorData: ReadableMap?,
+    darkModeAccentColorData: ReadableMap?,
+    fontData: ReadableMap?,
+    isDarkModeEnabled: Boolean?,
     promise: Promise
   ) {
     try {
@@ -110,18 +114,18 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
 
       val fontMapping = fontData?.getMap("fontMapping")
 
-      if(isInitialized) return
+      if (isInitialized) return
 
       ChatSdk.initialize(
         context as Application, initInterface = object : ChatSDKInitCommunicator {
-          override suspend fun getAccessTokenData(payloadArgs : HashMap<String, String>?): ChatSdkAccessTokenData {
+          override suspend fun getAccessTokenData(payloadArgs: HashMap<String, String>?): ChatSdkAccessTokenData {
             return ChatSdkAccessTokenData(
               currentAccessToken ?: "",
               httpCode ?: -1
             )
           }
 
-          override fun getBusinessContext(payloadArgs : HashMap<String, String>?): BusinessContext {
+          override fun getBusinessContext(payloadArgs: HashMap<String, String>?): BusinessContext {
             return BusinessContext(
               channelHandle = channelHandle,
               ticketGroupingId = ticketGroupingId,
@@ -130,13 +134,13 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
             )
           }
 
-          override suspend fun getRefreshToken(payloadArgs : HashMap<String, String>?): String {
+          override suspend fun getRefreshToken(payloadArgs: HashMap<String, String>?): String {
             return currentAccessToken ?: ""
           }
 
           override fun getTextAppearance(fontWeight: Int): Int? {
 
-            if(fontMapping == null || currentActivity == null) return null
+            if (fontMapping == null || reactContext.currentActivity == null) return null
 
             val styleName = when (fontWeight) {
               100 -> fontMapping.getString("thin")
@@ -150,19 +154,19 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
               else -> null
             }
 
-            Log.i("ChatSampleApp" , "Style name : ${styleName}")
+            Log.i("ChatSampleApp", "Style name : ${styleName}")
 
             val resolvedStyle =
-              getStyleResourceId(currentActivity , styleName?.replace(Regex("[^A-Za-z0-9]"), ""))
+              getStyleResourceId(reactContext.currentActivity, styleName?.replace(Regex("[^A-Za-z0-9]"), ""))
             return resolvedStyle
           }
 
-          override fun triggerDeeplinkInApp(context: Context, url: String?, bundle: Bundle?){
-            triggerDeeplinkInApp(context, url, bundle , "triggerDeeplinkInApp")
+          override fun triggerDeeplinkInApp(context: Context, url: String?, bundle: Bundle?) {
+            triggerDeeplinkInApp(context, url, bundle, "triggerDeeplinkInApp")
           }
 
           override fun isDarkModeEnabled(): Boolean {
-            when(isDarkModeEnabledForClient){
+            when (isDarkModeEnabledForClient) {
               true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
               else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             }
@@ -201,17 +205,22 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
     return context.resources.getIdentifier(styleName, "style", context.packageName)
   }
 
-  private fun triggerDeeplinkInApp(context: Context, url: String?, bundle: Bundle?, method: String) {
+  private fun triggerDeeplinkInApp(
+    context: Context,
+    url: String?,
+    bundle: Bundle?,
+    method: String
+  ) {
     val deferred = CompletableDeferred<ReadableMap>()
     pendingResponses[method] = deferred
 
     val payload = Arguments.createMap().apply {
       putString("deeplink", url)
     }
-    sendEventToJS(method , payload)
+    sendEventToJS(method, payload)
   }
 
-  private fun requestAuthInfo(method : String) {
+  private fun requestAuthInfo(method: String) {
     val deferred = CompletableDeferred<ReadableMap>()
     pendingResponses[method] = deferred
     sendEventToJS(method)
@@ -232,10 +241,13 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   fun onJsResponse(method: String, payload: ReadableMap) {
     Log.i("ChatSampleApp", "Received response for method: ${method} and payload : ${payload}")
 
-    if(method == "requiresAuthInfo"){
+    if (method == "requiresAuthInfo") {
       this.currentAccessToken = payload?.getString("accessToken") ?: ""
       this.httpCode = payload?.getInt("httpCode") ?: -1
-      Log.i("ChatSampleApp" , "Received access token as : ${this.currentAccessToken} , httpcode as : ${this.httpCode}")
+      Log.i(
+        "ChatSampleApp",
+        "Received access token as : ${this.currentAccessToken} , httpcode as : ${this.httpCode}"
+      )
     }
 
     pendingResponses[method]?.complete(payload)
@@ -245,7 +257,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   @ReactMethod
   fun openNuggetSDK(deeplink: String, promise: Promise) {
     try {
-      val activity = currentActivity ?: run {
+      val activity = reactContext.currentActivity ?: run {
         promise.reject("NO_ACTIVITY", "Current activity is null")
         return
       }
@@ -265,28 +277,40 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
 
 
   @ReactMethod
-  fun updateBusinessContext(businessContext: ReadableMap?){
+  fun updateBusinessContext(businessContext: ReadableMap?) {
     channelHandle = businessContext?.getString("channelHandle")
     ticketGroupingId = businessContext?.getString("ticketGroupingId")
-    botProperties = resolveCustomProperties(key = "botProperties" , map = businessContext)
-    ticketProperties = resolveCustomProperties(key = "ticketProperties" , map = businessContext)
-    Log.i("ChatSampleApp" , "Bot properties from business context : ${botProperties} ticketProperties : ${ticketProperties}")
+    botProperties = resolveCustomProperties(key = "botProperties", map = businessContext)
+    ticketProperties = resolveCustomProperties(key = "ticketProperties", map = businessContext)
+    Log.i(
+      "ChatSampleApp",
+      "Bot properties from business context : ${botProperties} ticketProperties : ${ticketProperties}"
+    )
+  }
+
+  @ReactMethod
+  fun canOpenDeeplink(deeplink: String) {
+    // no-op
   }
 
   override fun onActivityResult(
-    activity: Activity?,
+    activity: Activity,
     requestCode: Int,
     resultCode: Int,
     data: Intent?
-  ) {}
+  ) {
+  }
 
-  override fun onNewIntent(intent: Intent?) {}
+  override fun onNewIntent(intent: Intent) {}
 
-  private fun resolveCustomProperties(key : String , map : ReadableMap?) : HashMap<String, ArrayList<String>>{
+  private fun resolveCustomProperties(
+    key: String,
+    map: ReadableMap?
+  ): HashMap<String, ArrayList<String>> {
 
     val outerMap: ReadableMap? = map?.getMap(key)
 
-    if(outerMap == null) return hashMapOf()
+    if (outerMap == null) return hashMapOf()
 
     val iterator = outerMap.keySetIterator()
     val resultMap = hashMapOf<String, ArrayList<String>>()
