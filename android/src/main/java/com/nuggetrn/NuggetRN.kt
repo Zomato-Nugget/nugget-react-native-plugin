@@ -168,7 +168,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
           override fun isDarkModeEnabled(): Boolean {
             when (isDarkModeEnabledForClient) {
               true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-              else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+              else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
             return isDarkModeEnabledForClient
           }
