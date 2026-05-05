@@ -117,8 +117,8 @@ class NuggetRN: RCTEventEmitter {
     clientSideThemeProviderDelegate = ClientSideNuggetThemeProvider(lightModeAccentColorData: lightModeAccentColorData, darkModeAccentColorData: darkModeAccentColorData, isDarkModeEnabled: isDarkModeEnabled)
     nuggetFactory = NuggetSDK.initializeNuggetFactory(
       authDelegate: self,
-      notificationDelegate: nuggetPushNotificationsListener,
       sdkConfigurationDelegate: clientNuggetSDKConfiguration,
+      notificationDelegate: nuggetPushNotificationsListener,
       chatBusinessContextDelegate: clientSideNuggetChatBusinessContextDelegate,
       customThemeProviderDelegate: clientSideThemeProviderDelegate
     )

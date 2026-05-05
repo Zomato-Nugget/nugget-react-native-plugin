@@ -71,7 +71,7 @@ export default function NuggetMockScreen() {
   const [result, setResult] = useState<string>('');
   const { sdk } = useNuggetSDK();
   const chatDeeplink =
-    'stashfin://unified-support/conversation?flowType=ticketing&omniTicketingFlow=true';
+    'nugget://unified-support/conversation?flowType=ticketing&omniTicketingFlow=true';
 
   const openNuggetSDKPush = async () => {
     try {
