@@ -11,6 +11,13 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
   bool success = [super application:application didFinishLaunchingWithOptions:launchOptions];
+  if (![self.window.rootViewController isKindOfClass:[UINavigationController class]]) {
+    UIViewController *rootVC = self.window.rootViewController;
+    self.window.rootViewController = nil;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:rootVC];
+    navController.navigationBarHidden = YES;
+    self.window.rootViewController = navController;
+  }
   return success;
 }
 

@@ -136,27 +136,39 @@ class NuggetRN: RCTEventEmitter {
   }
 
   @objc
-  func openNuggetSDK(_ deeplink: String, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter reject: @escaping RCTPromiseRejectBlock) {
+  func openNuggetSDK(_ deeplink: String, shouldPresent: Bool, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter reject: @escaping RCTPromiseRejectBlock) {
     DispatchQueue.main.async {
-        let viewController = self.nuggetFactory?.contentViewController(deeplink: deeplink)
-        let rootViewController = UIApplication.shared.delegate?.window??.rootViewController
-        if let rootViewController, let viewController {
-            viewController.modalPresentationStyle = .fullScreen
-            let chatNavigationController = UINavigationController(rootViewController: viewController)
-            rootViewController.present(chatNavigationController, animated: true)
-            resolve(["nuggetSDKResult": true])
+        guard let viewController = self.nuggetFactory?.contentViewController(deeplink: deeplink) else {
+            reject("NO_VIEW_CONTROLLER", "Could not get Nugget SDK view controller", nil)
             return
         }
-        let windowSceneVC = self.getRootViewControllerFromWindowScene()
-        if let windowSceneVC, let viewController {
-            viewController.modalPresentationStyle = .fullScreen
-            let chatNavigationController = UINavigationController(rootViewController: viewController)
-            windowSceneVC.present(chatNavigationController, animated: true)
-            resolve(["nuggetSDKResult": true])
+
+        let rootVC = UIApplication.shared.delegate?.window??.rootViewController
+            ?? self.getRootViewControllerFromWindowScene()
+
+        guard let rootVC else {
+            reject("NO_VIEW_CONTROLLER", "Could not find root view controller", nil)
             return
         }
-        // If we reach here, presentation failed
-        reject("NO_VIEW_CONTROLLER", "Could not present Nugget SDK view controller", nil)
+
+        // Traverse to the topmost presented view controller
+        var topVC = rootVC
+        while let presented = topVC.presentedViewController {
+            topVC = presented
+        }
+
+        if shouldPresent {
+            topVC.present(viewController, animated: true)
+            resolve(["nuggetSDKResult": true])
+        } else if let navController = topVC as? UINavigationController {
+            navController.pushViewController(viewController, animated: true)
+            resolve(["nuggetSDKResult": true])
+        } else if let navController = topVC.navigationController {
+            navController.pushViewController(viewController, animated: true)
+            resolve(["nuggetSDKResult": true])
+        } else {
+            reject("NO_NAVIGATION_CONTROLLER", "Could not find a navigation controller to push onto", nil)
+        }
     }
 }
 

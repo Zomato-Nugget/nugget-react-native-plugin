@@ -255,7 +255,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun openNuggetSDK(deeplink: String, promise: Promise) {
+  fun openNuggetSDK(deeplink: String, shouldPresent: Boolean, promise: Promise) {
     try {
       val activity = reactContext.currentActivity ?: run {
         promise.reject("NO_ACTIVITY", "Current activity is null")
