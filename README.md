@@ -137,9 +137,18 @@ nuggetSDK.setAuthDelegate(myAuthProvider);
 ```
 Make sure to set the authentication delegate before performing any operations that require user authentication.
 
-### 4. DeepLink Handeling
+### 4. DeepLink Handling
 
 The SDK provides methods to check if it can handle a deeplink and to open the SDK with a specific deeplink.
+
+#### Opening the SDK: Push vs Present (iOS)
+
+`openNuggetSDK` accepts an optional `shouldPresent` boolean (default: `false`) that controls how the chat screen is presented on iOS:
+
+- **Push (`shouldPresent: false`)** — slides the screen in from the right using the existing `UINavigationController` stack. Requires your app's root view controller to be embedded in a `UINavigationController`.
+- **Present (`shouldPresent: true`)** — slides the screen up modally from the bottom. Works regardless of whether a navigation controller is present.
+
+> **Android:** The `shouldPresent` parameter is accepted but has no effect — the SDK always uses its own activity-based navigation on Android.
 
 ```typescript
 const deeplinkUrl = "some-chat-deeplink"; // Replace with your deeplink
@@ -151,8 +160,13 @@ async function handleDeeplink() {
 
     if (canOpen) {
       console.log("Nugget SDK can open this deeplink.");
-      // Open the Nugget SDK with the deeplink
+
+      // Push onto the navigation stack (default)
       const openedSuccessfully = await nuggetSDK.openNuggetSDK(deeplinkUrl);
+
+      // Or present modally
+      // const openedSuccessfully = await nuggetSDK.openNuggetSDK(deeplinkUrl, true);
+
       if (openedSuccessfully) {
         console.log("Nugget SDK opened successfully with deeplink.");
       } else {
@@ -207,7 +221,7 @@ The primary class for interacting with the SDK.
 | `setAuthDelegate(delegate: NuggetAuthProvider)` | Sets the authentication delegate responsible for providing and refreshing user authentication tokens.    | `delegate: NuggetAuthProvider`                   | `void`                                 |
 | `setChatScreenClosedCallback(callback: () => void)` | Provides callback when chat is closed. The callback closure is called when chat is closed | `callback: () => void` | `void` |
 | `canOpenDeeplink(deeplink: string)`         | Checks if the Nugget SDK can handle the given deeplink.                                                    | `deeplink: string`                               | `Promise<boolean>`                     |
-| `openNuggetSDK(deeplink: string)`           | Opens the Nugget SDK with the specified deeplink.                                                          | `deeplink: string`                               | `Promise<boolean>`                     |
+| `openNuggetSDK(deeplink: string, shouldPresent?: boolean)` | Opens the Nugget SDK with the specified deeplink. On iOS, `shouldPresent: true` presents modally; `false` (default) pushes onto the navigation stack. No effect on Android. | `deeplink: string`, `shouldPresent?: boolean` (default `false`) | `Promise<boolean>` |
 | `static updateNotificationToken(token: string)` | Updates the push notification token. Caches token if SDK not initialized, sends on `openNuggetSDK`.      | `token: string`                                    | `void`                                 |
 | `static updateNotificationPermissionStatus(notificationAllowed: boolean)` | Updates the notification permission status. Caches status if SDK not initialized, sends on `openNuggetSDK`. | `notificationAllowed: boolean`                   | `void`                                 |
 

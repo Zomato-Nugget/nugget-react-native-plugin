@@ -185,6 +185,14 @@ export class NuggetSDK {
         this.authDelegate = delegate;
     }
 
+    public updateNotificationToken(token: string): void {
+        NuggetPlugin.updateNotificationToken(token);
+    }
+
+    public updateNotificationPermissionStatus(notificationAllowed: boolean): void {
+        NuggetPlugin.updateNotificationPermissionStatus(notificationAllowed);
+    }
+
     /**
      * Checks if the SDK can handle the given deeplink
      * @param deeplink - The deeplink URL to validate
@@ -213,7 +221,7 @@ export class NuggetSDK {
      * @throws Error if the deeplink is invalid
      */
 
-    public async openNuggetSDK(deeplink: string): Promise<boolean> {
+    public async openNuggetSDK(deeplink: string, shouldPresent: boolean = false): Promise<boolean> {
         if (!NuggetSDK.instance) {
             return Promise.reject(new Error('NuggetSDK not initialized. Please initialize NuggetSDK first.'));
         }
@@ -221,7 +229,7 @@ export class NuggetSDK {
             return Promise.reject(new Error('Invalid deeplink parameter: deeplink must be a non-empty string'));
         }
         try {
-            const result = await NuggetPlugin.openNuggetSDK(deeplink);
+            const result = await NuggetPlugin.openNuggetSDK(deeplink, shouldPresent);
             if (result === true || (result && (result.nuggetSDKResult === true || result.success === true))) {
                 console.log('SDK opened successfully');
                 return Promise.resolve(true);

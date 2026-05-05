@@ -1,0 +1,15 @@
+export const colors = {
+  purpleDark: '#2D1B69',
+  purpleMid: '#6B21A8',
+  purpleLight: '#A855F7',
+  accent: '#E040FB',
+  white: '#FFFFFF',
+  whiteMuted: 'rgba(255,255,255,0.85)',
+  whiteFaint: 'rgba(255,255,255,0.6)',
+  whiteGhost: 'rgba(255,255,255,0.5)',
+  whiteTint: 'rgba(255,255,255,0.15)',
+  whiteBorder: 'rgba(255,255,255,0.12)',
+  whiteBorderStrong: 'rgba(255,255,255,0.2)',
+  whiteBorderSubtle: 'rgba(255,255,255,0.25)',
+  green: '#A3E635',
+};
