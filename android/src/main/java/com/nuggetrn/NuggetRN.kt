@@ -265,7 +265,6 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   @ReactMethod
   fun updateNotificationPermissionStatus(notificationAllowed: Boolean) {
     this.notificationAllowed = notificationAllowed
-    syncFcmToken()
   }
 
   private fun syncFcmToken() {
