@@ -60,6 +60,8 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
 
   private var currentAccessToken: String? = null
   private var httpCode: Int? = null
+  private var notificationToken: String? = null
+  private var notificationAllowed: Boolean = true
 
   private var isInitialized = false
 
@@ -256,12 +258,32 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun updateNotificationToken(token: String) {
-    Log.i("ChatSampleApp", "Received notification token from RN: $token")
+    notificationToken = token
+    syncFcmToken()
   }
 
   @ReactMethod
   fun updateNotificationPermissionStatus(notificationAllowed: Boolean) {
-    Log.i("ChatSampleApp", "Received notification permission from RN: $notificationAllowed")
+    this.notificationAllowed = notificationAllowed
+    syncFcmToken()
+  }
+
+  private fun syncFcmToken() {
+    val token = notificationToken
+    if (token.isNullOrBlank()) {
+      Log.i("ChatSampleApp", "Skipping notification sync: token is null/blank")
+      return
+    }
+    Log.i(
+      "ChatSampleApp",
+      "Synced notification state to SDK. token=$token enabled=$notificationAllowed"
+    )
+    ChatFCMTokenManager.syncFCMTokenWithServer(
+      notificationData = ChatSdkNotificationsData(
+        token = token,
+        notificationEnabled = notificationAllowed
+      )
+    )
   }
 
   @ReactMethod

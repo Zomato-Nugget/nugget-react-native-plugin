@@ -4,16 +4,13 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ScrollView,
   StatusBar,
   SafeAreaView,
   Image,
-  PermissionsAndroid,
-  Platform,
-  Linking,
 } from 'react-native';
-import { NuggetSDK } from 'nugget-rn';
-import { useNuggetSDK } from './components/NuggetSDKProvider';
+import {
+  useNuggetSDK
+} from './components/NuggetSDKProvider';
 import { styles } from './NuggetMockScreen.styles';
 import { colors } from './theme';
 
@@ -74,10 +71,6 @@ function ActionButton({ label, sublabel, onPress, variant = 'primary' }: ActionB
 
 export default function NuggetMockScreen() {
   const [result, setResult] = useState<string>('');
-  const [lastToken, setLastToken] = useState<string>('Not updated yet');
-  const [permissionStatus, setPermissionStatus] = useState<'allowed' | 'denied' | 'unknown'>(
-    'unknown'
-  );
   const { sdk } = useNuggetSDK();
   const chatDeeplink =
     'nugget://unified-support/conversation?flowType=ticketing&omniTicketingFlow=true';
@@ -110,61 +103,13 @@ export default function NuggetMockScreen() {
   };
 
   const updateToken = () => {
-    const mockToken = `sample-token-${Date.now()}`;
-    NuggetSDK.updateNotificationToken(mockToken);
-    setLastToken(mockToken);
+    sdk.updateNotificationToken('dummy-push-token-12345');
     setResult('Notification token updated');
-    console.log(`[NuggetMockScreen] Token updated: ${mockToken}`);
   };
 
-  const setNotificationPermission = (allowed: boolean) => {
-    if (Platform.OS !== 'android') {
-      setResult('Notification permission handling from this screen is Android-only');
-      console.log('[NuggetMockScreen] Ignored permission update on non-Android platform');
-      return;
-    }
-    NuggetSDK.updateNotificationPermissionStatus(allowed);
-    setPermissionStatus(allowed ? 'allowed' : 'denied');
-    setResult(`Notification permission: ${allowed ? 'allowed' : 'denied'}`);
-    console.log(`[NuggetMockScreen] Permission updated: ${allowed ? 'allowed' : 'denied'}`);
-  };
-
-  const allowNotifications = async () => {
-    if (Platform.OS !== 'android') return;
-
-    if (Platform.Version < 33) {
-      setNotificationPermission(true);
-      console.log('[NuggetMockScreen] Android < 13, POST_NOTIFICATIONS not required');
-      return;
-    }
-
-    try {
-      const postNotificationsPermission = 'android.permission.POST_NOTIFICATIONS';
-      const alreadyGranted = await PermissionsAndroid.check(postNotificationsPermission as any);
-      console.log(
-        `[NuggetMockScreen] Android POST_NOTIFICATIONS already granted: ${alreadyGranted}`
-      );
-
-      if (alreadyGranted) {
-        setNotificationPermission(true);
-        setResult('Notification permission already granted');
-        return;
-      }
-
-      const status = await PermissionsAndroid.request(postNotificationsPermission as any);
-      const allowed = status === PermissionsAndroid.RESULTS.GRANTED;
-      setNotificationPermission(allowed);
-      console.log(`[NuggetMockScreen] Android POST_NOTIFICATIONS result: ${status}`);
-
-      if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
-        setResult('Notifications blocked with "Don’t ask again". Open app settings to enable.');
-        console.log('[NuggetMockScreen] Notification permission set to never_ask_again');
-        Linking.openSettings();
-      }
-    } catch (error) {
-      console.log('[NuggetMockScreen] Permission request failed', error);
-      setResult('Failed to request Android notification permission');
-    }
+  const updatePermission = () => {
+    sdk.updateNotificationPermissionStatus(true);
+    setResult('Notification permission: allowed');
   };
 
   return (
@@ -173,78 +118,49 @@ export default function NuggetMockScreen() {
       <GradientBackground />
 
       <SafeAreaView style={styles.safeArea}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={styles.header}>
-            <View style={styles.logoCircle}>
-              <Image
-                source={require('./assets/nugget_logo.png')}
-                style={styles.logoImage}
-                resizeMode="contain"
-              />
-            </View>
-            <Text style={styles.title}>nugget</Text>
-            <Text style={styles.subtitle}>by Zomato</Text>
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>SDK Playground</Text>
-            </View>
-          </View>
-
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Open Chat Screen</Text>
-            <Text style={styles.cardDesc}>Choose how to navigate to the Nugget chat</Text>
-            <View style={styles.row}>
-              <TouchableOpacity style={[styles.halfButton, styles.buttonPrimary]} onPress={openNuggetSDKPush} activeOpacity={0.75}>
-                <Text style={styles.halfButtonIcon}>⬅</Text>
-                <Text style={styles.buttonText}>Push</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.halfButton, styles.buttonAccent]} onPress={openNuggetSDKPresent} activeOpacity={0.75}>
-                <Text style={styles.halfButtonIcon}>⬆</Text>
-                <Text style={styles.buttonText}>Present</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Utilities</Text>
-            <ActionButton label="Verify Deeplink" sublabel="Check if deeplink is valid" onPress={verifyDeeplink} variant="secondary" />
-            <ActionButton
-              label="Update Push Token"
-              sublabel={`Token: ${lastToken}`}
-              onPress={updateToken}
-              variant="ghost"
-            />
-            <ActionButton
-              label="Allow Notifications"
-            sublabel={
-              Platform.OS === 'android'
-                ? `Permission status: ${permissionStatus}`
-                : 'Android only'
-            }
-              onPress={allowNotifications}
-              variant="ghost"
-            />
-            <ActionButton
-              label="Deny Notifications"
-            sublabel={
-              Platform.OS === 'android'
-                ? `Permission status: ${permissionStatus}`
-                : 'Android only'
-            }
-              onPress={() => setNotificationPermission(false)}
-              variant="ghost"
+        <View style={styles.header}>
+          <View style={styles.logoCircle}>
+            <Image
+              source={require('./assets/nugget_logo.png')}
+              style={styles.logoImage}
+              resizeMode="contain"
             />
           </View>
+          <Text style={styles.title}>nugget</Text>
+          <Text style={styles.subtitle}>by Zomato</Text>
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>SDK Playground</Text>
+          </View>
+        </View>
 
-          {result !== '' && (
-            <View style={styles.resultContainer}>
-              <Text style={styles.resultDot}>●</Text>
-              <Text style={styles.resultText}>{result}</Text>
-            </View>
-          )}
-        </ScrollView>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Open Chat Screen</Text>
+          <Text style={styles.cardDesc}>Choose how to navigate to the Nugget chat</Text>
+          <View style={styles.row}>
+            <TouchableOpacity style={[styles.halfButton, styles.buttonPrimary]} onPress={openNuggetSDKPush} activeOpacity={0.75}>
+              <Text style={styles.halfButtonIcon}>⬅</Text>
+              <Text style={styles.buttonText}>Push</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.halfButton, styles.buttonAccent]} onPress={openNuggetSDKPresent} activeOpacity={0.75}>
+              <Text style={styles.halfButtonIcon}>⬆</Text>
+              <Text style={styles.buttonText}>Present</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Utilities</Text>
+          <ActionButton label="Verify Deeplink" sublabel="Check if deeplink is valid" onPress={verifyDeeplink} variant="secondary" />
+          <ActionButton label="Update Push Token" sublabel="dummy-push-token-12345" onPress={updateToken} variant="ghost" />
+          <ActionButton label="Update Notification Permission" sublabel="Set to: allowed" onPress={updatePermission} variant="ghost" />
+        </View>
+
+        {result !== '' && (
+          <View style={styles.resultContainer}>
+            <Text style={styles.resultDot}>●</Text>
+            <Text style={styles.resultText}>{result}</Text>
+          </View>
+        )}
       </SafeAreaView>
     </View>
   );
