@@ -37,6 +37,8 @@ import android.content.Context
 import android.os.Bundle
 import com.zomato.ui.atomiclib.data.ColorData
 import androidx.appcompat.app.AppCompatDelegate
+import com.zomato.chatsdk.utils.ChatFCMTokenManager
+import com.zomato.chatsdk.chatcorekit.init.ChatSdkNotificationsData
 
 class NuggetRN(private val reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext), ActivityEventListener {
@@ -268,18 +270,17 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   }
 
   private fun syncFcmToken() {
-    val token = notificationToken
-    if (token.isNullOrBlank()) {
+    if (notificationToken.isNullOrBlank()) {
       Log.i("ChatSampleApp", "Skipping notification sync: token is null/blank")
       return
     }
     Log.i(
       "ChatSampleApp",
-      "Synced notification state to SDK. token=$token enabled=$notificationAllowed"
+      "Synced notification state to SDK. token=$notificationToken enabled=$notificationAllowed"
     )
     ChatFCMTokenManager.syncFCMTokenWithServer(
       notificationData = ChatSdkNotificationsData(
-        token = token,
+        token = notificationToken,
         notificationEnabled = notificationAllowed
       )
     )
