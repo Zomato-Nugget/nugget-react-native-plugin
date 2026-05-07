@@ -198,14 +198,6 @@ export class NuggetSDK {
         this.authDelegate = delegate;
     }
 
-    public updateNotificationToken(token: string): void {
-        NuggetPlugin.updateNotificationToken(token);
-    }
-
-    public updateNotificationPermissionStatus(notificationAllowed: boolean): void {
-        NuggetPlugin.updateNotificationPermissionStatus(notificationAllowed);
-    }
-
     public static updateNotificationToken(token: string): void {
         if (!token || typeof token !== 'string') {
             throw new Error('Invalid token parameter: token must be a non-empty string');
