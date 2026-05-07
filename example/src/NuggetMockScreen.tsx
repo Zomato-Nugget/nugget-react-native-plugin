@@ -8,7 +8,9 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
-import { useNuggetSDK } from './components/NuggetSDKProvider';
+import {
+  useNuggetSDK
+} from './components/NuggetSDKProvider';
 import { styles } from './NuggetMockScreen.styles';
 import { colors } from './theme';
 

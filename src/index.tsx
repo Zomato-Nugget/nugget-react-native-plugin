@@ -185,13 +185,13 @@ export class NuggetSDK {
         this.authDelegate = delegate;
     }
 
-    public updateNotificationToken(token: string): void {
-        NuggetPlugin.updateNotificationToken(token);
-    }
+  public updateNotificationToken(token: string): void {
+    NuggetPlugin.updateNotificationToken(token);
+  }
 
-    public updateNotificationPermissionStatus(notificationAllowed: boolean): void {
-        NuggetPlugin.updateNotificationPermissionStatus(notificationAllowed);
-    }
+  public updateNotificationPermissionStatus(notificationAllowed: boolean): void {
+    NuggetPlugin.updateNotificationPermissionStatus(notificationAllowed);
+  }
 
     /**
      * Checks if the SDK can handle the given deeplink
