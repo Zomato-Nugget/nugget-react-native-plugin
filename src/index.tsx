@@ -130,6 +130,19 @@ export class NuggetSDK {
         NuggetPlugin.initializeNuggetFactory(config, chatSupportBusinessContext , handleDeeplinkInsideApp , lightModeAccentColorData , darkModeAccentColorData , fontData , isDarkModeEnabled);
     }
 
+    private static syncFcmToken(): void {
+        if (typeof NuggetPlugin.updateNotificationToken === 'function' && NuggetSDK.#pendingNotificationToken !== null) {
+            NuggetPlugin.updateNotificationToken(NuggetSDK.#pendingNotificationToken);
+        }
+
+        if (
+            typeof NuggetPlugin.updateNotificationPermissionStatus === 'function' &&
+            NuggetSDK.#pendingNotificationPermissionStatus !== null
+        ) {
+            NuggetPlugin.updateNotificationPermissionStatus(NuggetSDK.#pendingNotificationPermissionStatus);
+        }
+    }
+
   private triggerDeeplink(deeplink: string) : DeeplinkResult {
       // Handle your deeplink here
       return {
@@ -193,6 +206,24 @@ export class NuggetSDK {
         NuggetPlugin.updateNotificationPermissionStatus(notificationAllowed);
     }
 
+    public static updateNotificationToken(token: string): void {
+        if (!token || typeof token !== 'string') {
+            throw new Error('Invalid token parameter: token must be a non-empty string');
+        }
+
+        NuggetSDK.#pendingNotificationToken = token;
+        NuggetSDK.syncFcmToken();
+    }
+
+    public static updateNotificationPermissionStatus(notificationAllowed: boolean): void {
+        if (typeof notificationAllowed !== 'boolean') {
+            throw new Error('Invalid notificationAllowed parameter: must be a boolean');
+        }
+
+        NuggetSDK.#pendingNotificationPermissionStatus = notificationAllowed;
+        NuggetSDK.syncFcmToken();
+    }
+
     /**
      * Checks if the SDK can handle the given deeplink
      * @param deeplink - The deeplink URL to validate
@@ -231,6 +262,7 @@ export class NuggetSDK {
         try {
             const result = await NuggetPlugin.openNuggetSDK(deeplink, shouldPresent);
             if (result === true || (result && (result.nuggetSDKResult === true || result.success === true))) {
+                NuggetSDK.syncFcmToken();
                 console.log('SDK opened successfully');
                 return Promise.resolve(true);
             } else {

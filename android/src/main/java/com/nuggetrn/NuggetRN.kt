@@ -255,6 +255,16 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
+  fun updateNotificationToken(token: String) {
+    Log.i("ChatSampleApp", "Received notification token from RN: $token")
+  }
+
+  @ReactMethod
+  fun updateNotificationPermissionStatus(notificationAllowed: Boolean) {
+    Log.i("ChatSampleApp", "Received notification permission from RN: $notificationAllowed")
+  }
+
+  @ReactMethod
   fun openNuggetSDK(deeplink: String, shouldPresent: Boolean, promise: Promise) {
     try {
       val activity = reactContext.currentActivity ?: run {
