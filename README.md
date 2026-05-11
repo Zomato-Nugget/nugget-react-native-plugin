@@ -25,7 +25,7 @@ yarn add nugget-sdk@https://github.com/Zomato-Nugget/nugget-react-native-plugin.
 ### iOS Setup
 1. Add the following to your `Podfile`:
 ```ruby
-pod 'NuggetSDK', :git => 'https://github.com/Zomato-Nugget/nugget-sdk-ios', :tag => '4.2.0'
+pod 'NuggetSDK', :git => 'https://github.com/Zomato-Nugget/nugget-sdk-ios', :tag => '4.5.20'
 ```
 
 2. Install the pods:
