@@ -158,6 +158,7 @@ class NuggetRN: RCTEventEmitter {
         }
 
         if shouldPresent {
+            viewController.modalPresentationStyle = .fullScreen
             topVC.present(viewController, animated: true)
             resolve(["nuggetSDKResult": true])
         } else if let navController = topVC as? UINavigationController {
