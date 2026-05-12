@@ -157,15 +157,17 @@ class NuggetRN: RCTEventEmitter {
             topVC = presented
         }
 
+        let chatNavigationController = UINavigationController(rootViewController: viewController)
+        chatNavigationController.modalPresentationStyle = .fullScreen
+
         if shouldPresent {
-            viewController.modalPresentationStyle = .fullScreen
-            topVC.present(viewController, animated: true)
+            topVC.present(chatNavigationController, animated: true)
             resolve(["nuggetSDKResult": true])
         } else if let navController = topVC as? UINavigationController {
-            navController.pushViewController(viewController, animated: true)
+            navController.pushViewController(chatNavigationController, animated: true)
             resolve(["nuggetSDKResult": true])
         } else if let navController = topVC.navigationController {
-            navController.pushViewController(viewController, animated: true)
+            navController.pushViewController(chatNavigationController, animated: true)
             resolve(["nuggetSDKResult": true])
         } else {
             reject("NO_NAVIGATION_CONTROLLER", "Could not find a navigation controller to push onto", nil)
