@@ -39,6 +39,8 @@ import com.zomato.ui.atomiclib.data.ColorData
 import androidx.appcompat.app.AppCompatDelegate
 import com.zomato.chatsdk.utils.ChatFCMTokenManager
 import com.zomato.chatsdk.chatcorekit.init.ChatSdkNotificationsData
+import com.zomato.chatsdk.chatuikit.init.ChatUiKit
+import com.zomato.chatsdk.notification.ChatSdkNotificationUtil
 
 class NuggetRN(private val reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext), ActivityEventListener {
@@ -288,8 +290,14 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun sendNotificationPayload(payload: HashMap<String, String>) {
-    notificationPayload = payload
+  fun sendNotificationPayload(payload: ReadableMap) {
+    val result = HashMap<String, String>()
+    val iterator = payload.keySetIterator()
+    while (iterator.hasNextKey()) {
+      val key = iterator.nextKey()
+      payload.getString(key)?.let { result[key] = it }
+    }
+    notificationPayload = result
     syncNotificationPayload()
   }
 
@@ -301,6 +309,22 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
     Log.i(
       "ChatSampleApp",
       "Sent notification payload to SDK. payload=$notificationPayload"
+    )
+
+    val context = reactContext.applicationContext
+    val deeplink = notificationPayload?.get("deeplink")
+    val clientDeeplinkRouter = Intent(context, ChatSDKDeepLinkRouter::class.java).apply {
+      putExtra("uri", deeplink)
+    }
+    val appIcon = context.applicationInfo.icon
+
+    ChatSdkNotificationUtil.generateNotification(
+      context = context,
+      data = notificationPayload ?: hashMapOf(),
+      clientDeeplinkRouter = clientDeeplinkRouter,
+      smallIcon = appIcon,
+      largeIcon = appIcon,
+      color = ChatUiKit.getColor(context, com.zomato.chatsdk.R.color.sushi_zred)
     )
   }
 
