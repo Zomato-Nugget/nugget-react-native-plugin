@@ -64,6 +64,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   private var httpCode: Int? = null
   private var notificationToken: String? = null
   private var notificationAllowed: Boolean = true
+  private var notificationPayload: HashMap<String, String>? = null
 
   private var isInitialized = false
 
@@ -283,6 +284,23 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
         token = notificationToken,
         notificationEnabled = notificationAllowed
       )
+    )
+  }
+
+  @ReactMethod
+  fun sendNotificationPayload(payload: HashMap<String, String>) {
+    notificationPayload = payload
+    syncNotificationPayload()
+  }
+
+  private fun syncNotificationPayload() {
+    if (notificationPayload.isNullOrEmpty()) {
+      Log.i("ChatSampleApp", "Skipping notification payload sync: payload is null/empty")
+      return
+    }
+    Log.i(
+      "ChatSampleApp",
+      "Sent notification payload to SDK. payload=$notificationPayload"
     )
   }
 
