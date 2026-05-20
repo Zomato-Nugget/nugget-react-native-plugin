@@ -48,18 +48,18 @@ fileprivate class ClientSideNuggetThemeProvider: NuggetThemeProviderDelegate {
   var defaultLightModeAccentHexColor: String {
     lightModeAccentColorData?["hex"] as? String ?? "#4E44E4"
   }
-  
+
   var defaultDarkModeAccentHexColor: String {
     darkModeAccentColorData?["hex"] as? String ?? "#4E44E4"
   }
   var deviceInterfaceStyle: UIUserInterfaceStyle {
     isDarkModeEnabled?.boolValue == true ? .dark : .light
   }
-  
+
   private let lightModeAccentColorData: [String: Any]?
   private let darkModeAccentColorData: [String: Any]?
   private let isDarkModeEnabled: NSNumber?
-  
+
   init (lightModeAccentColorData: [String: Any]?,
         darkModeAccentColorData: [String: Any]?,
         isDarkModeEnabled: NSNumber?) {
@@ -123,6 +123,11 @@ class NuggetRN: RCTEventEmitter {
       customThemeProviderDelegate: clientSideThemeProviderDelegate
     )
   }
+
+  @objc
+    func sendNotificationPayload(_ payload: NSDictionary) {
+
+    }
 
   @objc
   func updateNotificationToken(_ token: String) {
