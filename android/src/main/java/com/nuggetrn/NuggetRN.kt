@@ -291,14 +291,28 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
 
   @ReactMethod
   fun sendNotificationPayload(payload: ReadableMap) {
-    val result = HashMap<String, String>()
-    val iterator = payload.keySetIterator()
-    while (iterator.hasNextKey()) {
-      val key = iterator.nextKey()
-      payload.getString(key)?.let { result[key] = it }
+    try {
+      val result = HashMap<String, String>()
+      val iterator = payload.keySetIterator()
+
+      while (iterator.hasNextKey()) {
+        val key = iterator.nextKey()
+
+        payload.getString(key)?.let {
+          result[key] = it
+        }
+      }
+
+      notificationPayload = result
+      syncNotificationPayload()
+
+    } catch (throwable: Throwable) {
+      Log.e(
+        "ChatSampleApp",
+        "Failed to process notification payload",
+        throwable
+      )
     }
-    notificationPayload = result
-    syncNotificationPayload()
   }
 
   private fun syncNotificationPayload() {
@@ -313,7 +327,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
 
     val context = reactContext.applicationContext
     val deeplink = notificationPayload?.get("deeplink")
-    val clientDeeplinkRouter = Intent(context, ChatSDKDeepLinkRouter::class.java).apply {
+    val nuggetDeeplinkRouter = Intent(context, ChatSDKDeepLinkRouter::class.java).apply {
       putExtra("uri", deeplink)
     }
     val appIcon = context.applicationInfo.icon
@@ -321,7 +335,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
     ChatSdkNotificationUtil.generateNotification(
       context = context,
       data = notificationPayload ?: hashMapOf(),
-      clientDeeplinkRouter = clientDeeplinkRouter,
+      clientDeeplinkRouter = nuggetDeeplinkRouter,
       smallIcon = appIcon,
       largeIcon = appIcon,
       color = ChatUiKit.getColor(context, com.zomato.chatsdk.R.color.sushi_zred)
