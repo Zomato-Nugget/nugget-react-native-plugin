@@ -310,7 +310,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
       Log.e(
         "ChatSampleApp",
         "Failed to process notification payload",
-        throwable
+        throwable.message
       )
     }
   }
