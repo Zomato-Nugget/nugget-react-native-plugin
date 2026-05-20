@@ -193,6 +193,10 @@ export class NuggetSDK {
     NuggetPlugin.updateNotificationPermissionStatus(notificationAllowed);
   }
 
+  public sendNotificationPayload(payload: { [key: string]: string }): void {
+    NuggetPlugin.sendNotificationPayload(payload);
+  }
+
     /**
      * Checks if the SDK can handle the given deeplink
      * @param deeplink - The deeplink URL to validate

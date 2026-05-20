@@ -19,6 +19,8 @@ RCT_EXTERN_METHOD(initializeNuggetFactory:(NSDictionary *)sdkConfiguration
 
 RCT_EXTERN_METHOD(onJsResponse:(NSString *)method result:(id)result)
 
+RCT_EXTERN_METHOD(sendNotificationPayload:(NSDictionary *)payload)
+
 RCT_EXTERN_METHOD(updateNotificationToken:(NSString *)token)
 
 RCT_EXTERN_METHOD(updateNotificationPermissionStatus:(BOOL)notificationAllowed)
