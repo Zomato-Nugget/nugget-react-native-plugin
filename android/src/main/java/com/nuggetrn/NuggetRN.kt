@@ -309,8 +309,8 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
     } catch (throwable: Throwable) {
       Log.e(
         "ChatSampleApp",
-        "Failed to process notification payload",
-        throwable.message
+        "Failed to process notification payload: ${throwable.message}",
+        throwable
       )
     }
   }
@@ -320,13 +320,23 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
       Log.i("ChatSampleApp", "Skipping notification payload sync: payload is null/empty")
       return
     }
+
+    val payload = notificationPayload ?: hashMapOf()
+    if (!ChatSdkNotificationUtil.isChatSdkNotification(payload)) {
+      Log.i(
+        "ChatSampleApp",
+        "Skipping notification payload sync: not a Nugget notification (payload=$payload)"
+      )
+      return
+    }
+
     Log.i(
       "ChatSampleApp",
-      "Sent notification payload to SDK. payload=$notificationPayload"
+      "Sent notification payload to SDK. payload=$payload"
     )
 
     val context = reactContext.applicationContext
-    val deeplink = notificationPayload?.get("deeplink")
+    val deeplink = payload["deeplink"]
     val nuggetDeeplinkRouter = Intent(context, ChatSDKDeepLinkRouter::class.java).apply {
       putExtra("uri", deeplink)
     }
@@ -334,7 +344,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
 
     ChatSdkNotificationUtil.generateNotification(
       context = context,
-      data = notificationPayload ?: hashMapOf(),
+      data = payload,
       clientDeeplinkRouter = nuggetDeeplinkRouter,
       smallIcon = appIcon,
       largeIcon = appIcon,
