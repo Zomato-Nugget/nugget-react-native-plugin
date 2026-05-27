@@ -47,7 +47,7 @@ fileprivate class ClientSideNuggetChatBusinessContextProvider: NuggetBusinessCon
       createChatSupportBusinessContextFromDictionary()
   }
 
-  func chatSupportBusinessContext(completion: @escaping (ZChatBusinessContext) -> Void) {
+  func chatSupportBusinessContext(completion: @escaping (NuggetChatBusinessContext) -> Void) {
       completion(createChatSupportBusinessContextFromDictionary())
   }
 }
