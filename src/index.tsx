@@ -226,7 +226,7 @@ export class NuggetSDK {
      * @throws Error if the deeplink is invalid
      */
 
-    public async openNuggetSDK(deeplink: string, shouldPresent: boolean = false): Promise<boolean> {
+    public async openNuggetSDK(deeplink: string, shouldPresent: boolean = true): Promise<boolean> {
         if (!NuggetSDK.instance) {
             return Promise.reject(new Error('NuggetSDK not initialized. Please initialize NuggetSDK first.'));
         }
