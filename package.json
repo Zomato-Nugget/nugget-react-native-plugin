@@ -1,6 +1,6 @@
 {
   "name": "nugget-rn",
-  "version": "1.0.6",
+  "version": "1.0.10",
   "description": "react native plugin for nugget android and ios",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

@@ -49,6 +49,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
 
   private var channelHandle: String? = null
   private var ticketGroupingId: String? = null
+  private var ticketID: Long? = null
   private var ticketProperties: HashMap<String, ArrayList<String>>? = null
   private var botProperties: HashMap<String, ArrayList<String>>? = null
   private var nameSpace: String? = null
@@ -136,6 +137,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
             return BusinessContext(
               channelHandle = channelHandle,
               ticketGroupingId = ticketGroupingId,
+              ticketID = ticketID,
               ticketProperties = ticketProperties,
               botProperties = botProperties
             )
@@ -378,12 +380,21 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   fun updateBusinessContext(businessContext: ReadableMap?) {
     channelHandle = businessContext?.getString("channelHandle")
     ticketGroupingId = businessContext?.getString("ticketGroupingId")
+    ticketID = getTicketIdFromBusinessContext(businessContext)
     botProperties = resolveCustomProperties(key = "botProperties", map = businessContext)
     ticketProperties = resolveCustomProperties(key = "ticketProperties", map = businessContext)
     Log.i(
       "ChatSampleApp",
-      "Bot properties from business context : ${botProperties} ticketProperties : ${ticketProperties}"
+      "Bot properties from business context : ${botProperties} ticketProperties : ${ticketProperties} ticketID : ${ticketID}"
     )
+  }
+
+  private fun getTicketIdFromBusinessContext(businessContext: ReadableMap?): Long? {
+    return if (businessContext?.hasKey("ticketID") == true && !businessContext.isNull("ticketID")) {
+      businessContext.getDouble("ticketID").toLong()
+    } else {
+      null
+    }
   }
 
   @ReactMethod
