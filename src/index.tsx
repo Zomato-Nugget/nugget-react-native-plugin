@@ -51,6 +51,7 @@ export interface NuggetEventBridge {
 export interface NuggetChatBusinessContext {
     channelHandle?: string;
     ticketGroupingId?: string;
+    ticketID?: number;
     ticketProperties?: { [key: string]: string[] };
     botProperties?: { [key: string]: string[] };
 }
