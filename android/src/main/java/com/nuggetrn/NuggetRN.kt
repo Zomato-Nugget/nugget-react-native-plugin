@@ -380,13 +380,21 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   fun updateBusinessContext(businessContext: ReadableMap?) {
     channelHandle = businessContext?.getString("channelHandle")
     ticketGroupingId = businessContext?.getString("ticketGroupingId")
-    ticketID = if (businessContext?.hasKey("ticketID") == true && !businessContext.isNull("ticketID")) businessContext.getDouble("ticketID").toLong() else null
+    ticketID = getTicketIdFromBusinessContext(businessContext)
     botProperties = resolveCustomProperties(key = "botProperties", map = businessContext)
     ticketProperties = resolveCustomProperties(key = "ticketProperties", map = businessContext)
     Log.i(
       "ChatSampleApp",
       "Bot properties from business context : ${botProperties} ticketProperties : ${ticketProperties} ticketID : ${ticketID}"
     )
+  }
+
+  private fun getTicketIdFromBusinessContext(businessContext: ReadableMap?): Long? {
+    return if (businessContext?.hasKey("ticketID") == true && !businessContext.isNull("ticketID")) {
+      businessContext.getDouble("ticketID").toLong()
+    } else {
+      null
+    }
   }
 
   @ReactMethod
