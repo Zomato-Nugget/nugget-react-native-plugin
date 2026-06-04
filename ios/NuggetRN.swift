@@ -133,9 +133,31 @@ class NuggetRN: RCTEventEmitter {
   }
 
   @objc
-    func sendNotificationPayload(_ payload: NSDictionary) {
-
+  func sendNotificationPayload(_ payload: NSDictionary) {
+    // Keep only string-valued entries, then hand off for handling.
+    var result = [String: String]()
+    for case let (key as String, value) in payload {
+      if let stringValue = value as? String {
+        result[key] = stringValue
+      }
     }
+
+    handleNotificationPayload(result)
+  }
+
+  private func handleNotificationPayload(_ payload: [String: String]) {
+    guard !payload.isEmpty,
+          NuggetNotificationManager.isChatSdkNotification(payload) else { return }
+    
+    // The SDK builds & presents the in-app notification UI; on tap we fire the
+    // deeplink directly so the host app's URL handler can route it.
+    NuggetNotificationManager.shared.generateNotification(payload: payload) { [weak self] deeplink in
+      Task { @MainActor in
+        guard let url = URL(string: deeplink), UIApplication.shared.canOpenURL(url) else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+      }
+    }
+  }
 
   @objc
   func updateNotificationToken(_ token: String) {
