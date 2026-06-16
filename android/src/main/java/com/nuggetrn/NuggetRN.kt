@@ -180,8 +180,8 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
           override fun isDarkModeEnabled(): Boolean {
 
             if (shouldToggleThemeDelegate == true) {
+              Log.i("ChatSampleApp", "Setting AppCompatDelegate to $isDarkModeEnabledForClient")
               when (isDarkModeEnabledForClient) {
-                Log.i("ChatSampleApp", "Setting AppCompatDelegate to $isDarkModeEnabledForClient")
                 true -> {
                   AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
@@ -189,8 +189,6 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
                   AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 }
               }
-            } else {
-              Log.i("ChatSampleApp", "Skipping theme toggle as shouldToggleThemeDelegate is false")
             }
 
             Log.i("ChatSampleApp", "Returning isDarkModeEnabledForClient: $isDarkModeEnabledForClient")
