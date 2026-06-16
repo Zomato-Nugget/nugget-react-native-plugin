@@ -72,6 +72,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   private var isInitialized = false
 
   private var isDarkModeEnabledForClient = false
+  private var shouldToggleThemeDelegate = true
 
   companion object {
     const val NAME = "NuggetRN"
@@ -94,6 +95,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
     darkModeAccentColorData: ReadableMap?,
     fontData: ReadableMap?,
     isDarkModeEnabled: Boolean?,
+    shouldToggleThemeDelegate: Boolean?,
     promise: Promise
   ) {
     try {
@@ -119,6 +121,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
       darkModeAccentColorHex = darkModeAccentColorData?.getString("hex") ?: null
 
       isDarkModeEnabledForClient = isDarkModeEnabled ?: false
+      this.shouldToggleThemeDelegate = shouldToggleThemeDelegate ?: true
 
       val fontMapping = fontData?.getMap("fontMapping")
 
@@ -175,10 +178,22 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
           }
 
           override fun isDarkModeEnabled(): Boolean {
-            when (isDarkModeEnabledForClient) {
-              true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-              else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+            if (shouldToggleThemeDelegate == true) {
+              when (isDarkModeEnabledForClient) {
+                Log.i("ChatSampleApp", "Setting AppCompatDelegate to $isDarkModeEnabledForClient")
+                true -> {
+                  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+                else -> {
+                  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+              }
+            } else {
+              Log.i("ChatSampleApp", "Skipping theme toggle as shouldToggleThemeDelegate is false")
             }
+
+            Log.i("ChatSampleApp", "Returning isDarkModeEnabledForClient: $isDarkModeEnabledForClient")
             return isDarkModeEnabledForClient
           }
 

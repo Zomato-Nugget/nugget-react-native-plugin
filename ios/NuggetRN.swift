@@ -117,7 +117,8 @@ class NuggetRN: RCTEventEmitter {
                                lightModeAccentColorData: [String: Any]?,
                                darkModeAccentColorData: [String: Any]?,
                                fontData: [String: Any]?,
-                               isDarkModeEnabled: NSNumber?) {
+                               isDarkModeEnabled: NSNumber?,
+                               shouldToggleThemeDelegate: NSNumber?) {
     clientNuggetSDKConfiguration = ClientNuggetSDKConfiguration(configuration: sdkConfiguration, handleDeeplinkInsideApp: handleDeeplinkInsideApp, accentColorData: lightModeAccentColorData, fontData: fontData, onChatScreenClosed: { [weak self] in
      self?.requestValueFromJS(method: "onChatScreenClosed", payload: [:], completion: nil)
     })

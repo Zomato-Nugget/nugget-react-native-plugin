@@ -82,7 +82,7 @@ export class NuggetSDK {
     private eventSubscription: any;
     private chatScreenClosedCallback: (() => void) | null = () => {};
 
-    private constructor(config: NuggetJumborConfiguration, chatSupportBusinessContext: NuggetChatBusinessContext, handleDeeplinkInsideApp : boolean , lightModeAccentColorData? : AccentColorData , darkModeAccentColorData? : AccentColorData , fontData? : FontData , isDarkModeEnabled? : boolean) {
+    private constructor(config: NuggetJumborConfiguration, chatSupportBusinessContext: NuggetChatBusinessContext, handleDeeplinkInsideApp : boolean , lightModeAccentColorData? : AccentColorData , darkModeAccentColorData? : AccentColorData , fontData? : FontData , isDarkModeEnabled? : boolean, shouldToggleThemeDelegate?: boolean) {
         this.config = config;
         this.eventEmitter = new NativeEventEmitter(NuggetPlugin);
         this.eventSubscription = this.eventEmitter.addListener(
@@ -128,7 +128,7 @@ export class NuggetSDK {
                 }
             }
         );
-        NuggetPlugin.initializeNuggetFactory(config, chatSupportBusinessContext , handleDeeplinkInsideApp , lightModeAccentColorData , darkModeAccentColorData , fontData , isDarkModeEnabled);
+        NuggetPlugin.initializeNuggetFactory(config, chatSupportBusinessContext , handleDeeplinkInsideApp , lightModeAccentColorData , darkModeAccentColorData , fontData , isDarkModeEnabled, shouldToggleThemeDelegate ?? true);
     }
 
   private triggerDeeplink(deeplink: string) : DeeplinkResult {
@@ -171,14 +171,14 @@ export class NuggetSDK {
        console.log("NuggetSDK cleaned up");
      }
 
-    public static getInstance(config: NuggetJumborConfiguration, chatSupportBusinessContext: NuggetChatBusinessContext, handleDeeplinkInsideApp? : boolean , lightModeAccentColorData? : AccentColorData , darkModeAccentColorData? : AccentColorData , fontData? : FontData, isDarkModeEnabled? : boolean): NuggetSDK {
+    public static getInstance(config: NuggetJumborConfiguration, chatSupportBusinessContext: NuggetChatBusinessContext, handleDeeplinkInsideApp? : boolean , lightModeAccentColorData? : AccentColorData , darkModeAccentColorData? : AccentColorData , fontData? : FontData, isDarkModeEnabled? : boolean, shouldToggleThemeDelegate?: boolean): NuggetSDK {
 
          if (NuggetSDK.instance) {
              NuggetSDK.instance.cleanup();
              NuggetSDK.instance = null;
          }
 
-         NuggetSDK.instance = new NuggetSDK(config, chatSupportBusinessContext , handleDeeplinkInsideApp ?? false , lightModeAccentColorData , darkModeAccentColorData ,  fontData , isDarkModeEnabled);
+         NuggetSDK.instance = new NuggetSDK(config, chatSupportBusinessContext , handleDeeplinkInsideApp ?? false , lightModeAccentColorData , darkModeAccentColorData ,  fontData , isDarkModeEnabled, shouldToggleThemeDelegate);
          return NuggetSDK.instance;
     }
 
