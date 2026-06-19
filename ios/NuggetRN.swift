@@ -9,17 +9,20 @@ fileprivate struct ClientSideNuggetChatBusinessContext: NuggetChatBusinessContex
   var ticketGroupingId: String?
   var ticketProperties: [String : [String]]?
   var botProperties: [String : [String]]?
+  var themeId: String? 
 
   init(channelHandle: String? = nil,
        ticketID: Int? = nil,
        ticketGroupingId: String? = nil,
        ticketProperties: [String : [String]]? = nil,
-       botProperties: [String : [String]]? = nil) {
+       botProperties: [String : [String]]? = nil,
+       themeId: String? = nil) {
     self.channelHandle = channelHandle
     self.ticketID = ticketID
     self.ticketGroupingId = ticketGroupingId
     self.ticketProperties = ticketProperties
     self.botProperties = botProperties
+    self.themeId = themeId
   }
 }
 
@@ -36,11 +39,13 @@ fileprivate class ClientSideNuggetChatBusinessContextProvider: NuggetBusinessCon
     let ticketProperties: [String: [String]]? = params["ticketProperties"] as? [String: [String]]
     let ticketID: Int? = params["ticketID"] as? Int
     let botProperties: [String: [String]]? = params["botProperties"] as? [String: [String]]
+    let themeId: String? = params["ticketGroupingId"] as? String
     return ClientSideNuggetChatBusinessContext(channelHandle: channelHandle,
                                                ticketID: ticketID,
                                                ticketGroupingId: ticketGroupingId,
                                                ticketProperties: ticketProperties,
-                                               botProperties: botProperties)
+                                               botProperties: botProperties,
+                                               themeId: themeId)
   }
 
   func chatSupportBusinessContext() -> NuggetChatBusinessContext {
