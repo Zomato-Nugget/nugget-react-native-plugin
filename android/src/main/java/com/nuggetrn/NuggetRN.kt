@@ -52,6 +52,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
   private var ticketID: Long? = null
   private var ticketProperties: HashMap<String, ArrayList<String>>? = null
   private var botProperties: HashMap<String, ArrayList<String>>? = null
+  private var themeId: String? = null
   private var nameSpace: String? = null
 
   private var handleDeeplinkInsideTheApp: Boolean? = null
@@ -396,9 +397,10 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
     ticketID = getTicketIdFromBusinessContext(businessContext)
     botProperties = resolveCustomProperties(key = "botProperties", map = businessContext)
     ticketProperties = resolveCustomProperties(key = "ticketProperties", map = businessContext)
+    themeId = businessContext?.getString("themeId")
     Log.i(
       "ChatSampleApp",
-      "Bot properties from business context : ${botProperties} ticketProperties : ${ticketProperties} ticketID : ${ticketID}"
+      "Bot properties from business context : ${botProperties} ticketProperties : ${ticketProperties} ticketID : ${ticketID} themeId : ${themeId}"
     )
   }
 
