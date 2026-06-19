@@ -39,7 +39,7 @@ fileprivate class ClientSideNuggetChatBusinessContextProvider: NuggetBusinessCon
     let ticketProperties: [String: [String]]? = params["ticketProperties"] as? [String: [String]]
     let ticketID: Int? = params["ticketID"] as? Int
     let botProperties: [String: [String]]? = params["botProperties"] as? [String: [String]]
-    let themeId: String? = params["ticketGroupingId"] as? String
+    let themeId: String? = params["themeId"] as? String
     return ClientSideNuggetChatBusinessContext(channelHandle: channelHandle,
                                                ticketID: ticketID,
                                                ticketGroupingId: ticketGroupingId,
