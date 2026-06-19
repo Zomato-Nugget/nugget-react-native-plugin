@@ -143,8 +143,7 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
               ticketGroupingId = ticketGroupingId,
               ticketID = ticketID,
               ticketProperties = ticketProperties,
-              botProperties = botProperties,
-              themeId = themeId
+              botProperties = botProperties
             )
           }
 
