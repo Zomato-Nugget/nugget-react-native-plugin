@@ -54,7 +54,7 @@ export interface NuggetChatBusinessContext {
     ticketID?: number;
     ticketProperties?: { [key: string]: string[] };
     botProperties?: { [key: string]: string[] };
-    themeId?: string;
+    themeID?: string;
 }
 
 export interface AccentColorData {
