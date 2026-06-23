@@ -16,7 +16,7 @@ RCT_EXTERN_METHOD(initializeNuggetFactory:(NSDictionary *)sdkConfiguration
                   darkModeAccentColorData:(NSDictionary *)darkModeAccentColorData
                   fontData:(NSDictionary *)fontData
                   isDarkModeEnabled:(nonnull NSNumber *)isDarkModeEnabled
-                  shouldToggleThemeDelegate:(NSNumber *)shouldToggleThemeDelegate)
+                  shouldToggleThemeDelegate:(nonnull NSNumber *)shouldToggleThemeDelegate)
 
 RCT_EXTERN_METHOD(onJsResponse:(NSString *)method result:(id)result)
 
