@@ -55,7 +55,7 @@
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.5.0",
     "@react-native/eslint-config": "^0.72.2",
-    "@release-it/conventional-changelog": "^5.0.0",
+    "@release-it/conventional-changelog": "^9.0.4",
     "@types/jest": "^28.1.2",
     "@types/react": "~17.0.21",
     "@types/react-native": "0.70.0",
@@ -70,12 +70,14 @@
     "react": "18.2.0",
     "react-native": "0.73.2",
     "react-native-builder-bob": "^0.20.0",
-    "release-it": "^15.0.0",
-    "turbo": "^1.10.7",
+    "release-it": "^17.11.0",
     "typescript": "^5.8.3"
   },
   "resolutions": {
-    "@types/react": "17.0.21"
+    "@types/react": "17.0.21",
+    "lodash": "^4.18.1",
+    "tmp": "^0.2.6",
+    "fast-xml-parser": "^5.7.0"
   },
   "peerDependencies": {
     "react": "*",
@@ -159,10 +161,7 @@
     ]
   },
   "dependencies": {
-    "@babel/runtime": "^7.28.2",
-    "@types/react-native-fs": "^2.8.3",
-    "react-native-fs": "^2.20.0",
-    "ts-lint": "^4.5.1"
+    "@babel/runtime": "^7.28.2"
   },
   "packageManager": "yarn@1.22.15+sha512.033a040f18f6e7a04e4bf8ea0d7037a63ca19a2e054410543206284c7238108b7612144492f1f4b283d512d9c3f8340825f53947d6ca85c6751fd97cccf59ea0"
 }
