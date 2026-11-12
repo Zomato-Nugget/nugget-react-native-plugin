@@ -5,7 +5,9 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
-platform :ios, '14.0'
+# Xcode 27+ only accepts deployment targets >= iOS 15.0.
+MIN_IOS_DEPLOYMENT_TARGET = '15.0'
+platform :ios, MIN_IOS_DEPLOYMENT_TARGET
 prepare_react_native_project!
 # If you are using a `react-native-flipper` your iOS build will fail when `NO_FLIPPER=1` is set.
 # because `react-native-flipper` depends on (FlipperKit,...) that will be excluded
@@ -23,7 +25,7 @@ flipper_config = FlipperConfiguration.disabled
 target 'NuggetRNExample' do
   config = use_native_modules!
 
-  pod 'NuggetSDK', :git => 'https://github.com/Zomato-Nugget/nugget-sdk-ios.git', :tag => '4.5.33'
+  pod 'NuggetSDK', :git => 'https://github.com/Zomato-Nugget/nugget-sdk-ios.git', :tag => '4.5.49'
   use_react_native!(
     :path => config[:reactNativePath],
     # Enables Flipper.
@@ -46,5 +48,17 @@ target 'NuggetRNExample' do
       config[:reactNativePath],
       :mac_catalyst_enabled => false
     )
+
+    # RN 0.73 pods default to iOS 13.4, which Xcode 27+ rejects.
+    # Raise every pod target that is below the minimum.
+    min_target = Gem::Version.new(MIN_IOS_DEPLOYMENT_TARGET)
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |build_config|
+        current = build_config.build_settings['IPHONEOS_DEPLOYMENT_TARGET']
+        if current.nil? || Gem::Version.new(current) < min_target
+          build_config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = MIN_IOS_DEPLOYMENT_TARGET
+        end
+      end
+    end
   end
 end

@@ -226,7 +226,8 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
 
   private fun getStyleResourceId(context: Context?, styleName: String?): Int? {
     if (context == null || styleName == null) return null
-    return context.resources.getIdentifier(styleName, "style", context.packageName)
+    // getIdentifier returns 0 for an unknown style; null makes the SDK use its default.
+    return context.resources.getIdentifier(styleName, "style", context.packageName).takeIf { it != 0 }
   }
 
   private fun triggerDeeplinkInApp(

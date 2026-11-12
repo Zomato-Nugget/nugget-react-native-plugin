@@ -64,6 +64,11 @@ export interface AccentColorData {
 }
 
 export interface FontData {
+  /**
+   * The font for each weight. Android: text appearance style names. iOS: PostScript names of
+   * installed fonts, required for all seven weights (`light`, `regular`, `medium`, `semibold`,
+   * `bold`, `extrabold`, `black`); otherwise custom fonts aren't applied and an error is logged.
+   */
   fontMapping: Map<string, string>;
 }
 
@@ -129,7 +134,11 @@ export class NuggetSDK {
                 }
             }
         );
-        NuggetPlugin.initializeNuggetFactory(config, chatSupportBusinessContext , handleDeeplinkInsideApp , lightModeAccentColorData , darkModeAccentColorData , fontData , isDarkModeEnabled, shouldToggleThemeDelegate ?? true);
+        // React Native sends a Map to native code as {}, so pass the font mapping as a plain object.
+        const nativeFontData = fontData && fontData.fontMapping instanceof Map
+            ? { ...fontData, fontMapping: Object.fromEntries(fontData.fontMapping) }
+            : fontData;
+        NuggetPlugin.initializeNuggetFactory(config, chatSupportBusinessContext , handleDeeplinkInsideApp , lightModeAccentColorData , darkModeAccentColorData , nativeFontData , isDarkModeEnabled, shouldToggleThemeDelegate ?? true);
     }
 
   private triggerDeeplink(deeplink: string) : DeeplinkResult {

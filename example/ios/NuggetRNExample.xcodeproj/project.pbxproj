@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* NuggetRNExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* NuggetRNExampleTests.m */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
+		0FD4C711AF7C724946827869 /* libPods-NuggetRNExample-NuggetRNExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 964CE35B333C24CAF8B343CF /* libPods-NuggetRNExample-NuggetRNExampleTests.a */; };
+		12D5E2C29D7C82250840CC74 /* libPods-NuggetRNExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0C3CA2EEF3031DF1B256D5 /* libPods-NuggetRNExample.a */; };
+		13B07FBC1A68108700A75B9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.swift */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		A308E3350939B1DDEF9B72D4 /* Pods_NuggetRNExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A15E65AFA0740DDF35367DB /* Pods_NuggetRNExample.framework */; };
-		C8256FF7E5AD760A99F2B1F1 /* Pods_NuggetRNExample_NuggetRNExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105A34DA540D74D4DB0AD3AB /* Pods_NuggetRNExample_NuggetRNExampleTests.framework */; };
+		9BB0A44F4F3B9575F1FCC581 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759437E81DF7199E5F029F7A /* SceneDelegate.swift */; };
+		C990300CBA4E9170D638331E /* pixar.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35700B36E46CC48E5EDEB1C4 /* pixar.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,17 +31,17 @@
 		00E356EE1AD99517003FC87E /* NuggetRNExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NuggetRNExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* NuggetRNExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NuggetRNExampleTests.m; sourceTree = "<group>"; };
-		105A34DA540D74D4DB0AD3AB /* Pods_NuggetRNExample_NuggetRNExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NuggetRNExample_NuggetRNExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* NuggetRNExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NuggetRNExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NuggetRNExample/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = NuggetRNExample/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = NuggetRNExample/AppDelegate.swift; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NuggetRNExample/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NuggetRNExample/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NuggetRNExample/main.m; sourceTree = "<group>"; };
-		2A15E65AFA0740DDF35367DB /* Pods_NuggetRNExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NuggetRNExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		35700B36E46CC48E5EDEB1C4 /* pixar.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = pixar.ttf; path = NuggetRNExample/pixar.ttf; sourceTree = "<group>"; };
 		542A88A82C75D9D3001F21B0 /* NuggetRNExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = NuggetRNExample.entitlements; path = NuggetRNExample/NuggetRNExample.entitlements; sourceTree = "<group>"; };
+		759437E81DF7199E5F029F7A /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = NuggetRNExample/SceneDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NuggetRNExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		922C94E629ABC174FFDCB7B6 /* Pods-NuggetRNExample-NuggetRNExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NuggetRNExample-NuggetRNExampleTests.release.xcconfig"; path = "Target Support Files/Pods-NuggetRNExample-NuggetRNExampleTests/Pods-NuggetRNExample-NuggetRNExampleTests.release.xcconfig"; sourceTree = "<group>"; };
+		964CE35B333C24CAF8B343CF /* libPods-NuggetRNExample-NuggetRNExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NuggetRNExample-NuggetRNExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC0C3CA2EEF3031DF1B256D5 /* libPods-NuggetRNExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NuggetRNExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF9A5BC06CAFE7D1E9B3E9E1 /* Pods-NuggetRNExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NuggetRNExample.debug.xcconfig"; path = "Target Support Files/Pods-NuggetRNExample/Pods-NuggetRNExample.debug.xcconfig"; sourceTree = "<group>"; };
 		C252F6D62A56C5FB00FCB5FC /* NuggetRNExample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NuggetRNExample-Bridging-Header.h"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -53,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8256FF7E5AD760A99F2B1F1 /* Pods_NuggetRNExample_NuggetRNExampleTests.framework in Frameworks */,
+				0FD4C711AF7C724946827869 /* libPods-NuggetRNExample-NuggetRNExampleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A308E3350939B1DDEF9B72D4 /* Pods_NuggetRNExample.framework in Frameworks */,
+				12D5E2C29D7C82250840CC74 /* libPods-NuggetRNExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,12 +90,12 @@
 			isa = PBXGroup;
 			children = (
 				542A88A82C75D9D3001F21B0 /* NuggetRNExample.entitlements */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
+				13B07FB01A68108700A75B9A /* AppDelegate.swift */,
+				759437E81DF7199E5F029F7A /* SceneDelegate.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
-				13B07FB71A68108700A75B9A /* main.m */,
+				35700B36E46CC48E5EDEB1C4 /* pixar.ttf */,
 				C252F6D62A56C5FB00FCB5FC /* NuggetRNExample-Bridging-Header.h */,
 			);
 			name = NuggetRNExample;
@@ -104,8 +105,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				2A15E65AFA0740DDF35367DB /* Pods_NuggetRNExample.framework */,
-				105A34DA540D74D4DB0AD3AB /* Pods_NuggetRNExample_NuggetRNExampleTests.framework */,
+				AC0C3CA2EEF3031DF1B256D5 /* libPods-NuggetRNExample.a */,
+				964CE35B333C24CAF8B343CF /* libPods-NuggetRNExample-NuggetRNExampleTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -164,6 +165,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				134A61A96A8356767B995336 /* [CP] Embed Pods Frameworks */,
+				26A730E71497BBC649DA4F26 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -186,6 +188,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				D1B474E2F50827159C231A3E /* [CP] Embed Pods Frameworks */,
+				0FDCF6FE775F72C9CCC4DB57 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -245,6 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				C990300CBA4E9170D638331E /* pixar.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -268,6 +272,23 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
+		0FDCF6FE775F72C9CCC4DB57 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NuggetRNExample/Pods-NuggetRNExample-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NuggetRNExample/Pods-NuggetRNExample-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NuggetRNExample/Pods-NuggetRNExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		134A61A96A8356767B995336 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -283,6 +304,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NuggetRNExample-NuggetRNExampleTests/Pods-NuggetRNExample-NuggetRNExampleTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		26A730E71497BBC649DA4F26 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NuggetRNExample-NuggetRNExampleTests/Pods-NuggetRNExample-NuggetRNExampleTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NuggetRNExample-NuggetRNExampleTests/Pods-NuggetRNExample-NuggetRNExampleTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NuggetRNExample-NuggetRNExampleTests/Pods-NuggetRNExample-NuggetRNExampleTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D1B474E2F50827159C231A3E /* [CP] Embed Pods Frameworks */ = {
@@ -380,8 +418,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				13B07FBC1A68108700A75B9A /* AppDelegate.swift in Sources */,
+				9BB0A44F4F3B9575F1FCC581 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,7 +496,7 @@
 				DEVELOPMENT_TEAM = 9CGA6YVWTA;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = NuggetRNExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -488,7 +526,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9CGA6YVWTA;
 				INFOPLIST_FILE = NuggetRNExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -569,7 +607,7 @@
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD = "";
 				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -597,6 +635,7 @@
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				USE_HERMES = true;
 			};
 			name = Debug;
@@ -656,7 +695,7 @@
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
 					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD = "";
 				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
