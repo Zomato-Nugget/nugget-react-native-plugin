@@ -116,6 +116,10 @@
 	<string>We will need microphone permission for testing the SDK.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photos for testing the SDK.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>pixar.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -14,6 +14,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9BB0A44F4F3B9575F1FCC581 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759437E81DF7199E5F029F7A /* SceneDelegate.swift */; };
+		C990300CBA4E9170D638331E /* pixar.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35700B36E46CC48E5EDEB1C4 /* pixar.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +35,7 @@
 		13B07FB01A68108700A75B9A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = NuggetRNExample/AppDelegate.swift; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NuggetRNExample/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NuggetRNExample/Info.plist; sourceTree = "<group>"; };
+		35700B36E46CC48E5EDEB1C4 /* pixar.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = pixar.ttf; path = NuggetRNExample/pixar.ttf; sourceTree = "<group>"; };
 		542A88A82C75D9D3001F21B0 /* NuggetRNExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = NuggetRNExample.entitlements; path = NuggetRNExample/NuggetRNExample.entitlements; sourceTree = "<group>"; };
 		759437E81DF7199E5F029F7A /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = NuggetRNExample/SceneDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NuggetRNExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+				35700B36E46CC48E5EDEB1C4 /* pixar.ttf */,
 				C252F6D62A56C5FB00FCB5FC /* NuggetRNExample-Bridging-Header.h */,
 			);
 			name = NuggetRNExample;
@@ -245,6 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				C990300CBA4E9170D638331E /* pixar.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

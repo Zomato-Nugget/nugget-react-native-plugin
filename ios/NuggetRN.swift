@@ -1,4 +1,5 @@
 import Foundation
+import Nugget
 import NuggetSDK
 import React
 
@@ -82,6 +83,63 @@ fileprivate class ClientSideNuggetThemeProvider: NuggetThemeProviderDelegate {
   }
 }
 
+/// Passes the app's `fontData.fontMapping` (font weight → iOS font name) to the SDK.
+fileprivate final class ClientSideNuggetFontProvider: NuggetFontProviderDelegate {
+  /// The SDK's font weights. Each needs an installed font, or the SDK crashes.
+  private static let weightKeys = ["light", "regular", "medium", "semibold", "bold", "extrabold", "black"]
+
+  let customFontMapping: (any NuggetFontPropertiesMapping)?
+
+  /// Returns `nil`, so the SDK keeps its default fonts, when `fontData` has no font mapping, or
+  /// when a weight isn't mapped to an installed font. The second case is logged as an error.
+  init?(fontData: [String: Any]?) {
+    guard let appFonts = fontData?["fontMapping"] as? [String: Any], !appFonts.isEmpty else { return nil }
+    var fontWeightMapping: [NuggetFontWeights: String] = [:]
+    var invalidWeightKeys: [String] = []
+    for key in ClientSideNuggetFontProvider.weightKeys {
+      if let fontName = appFonts[key] as? String,
+         UIFont(name: fontName, size: UIFont.systemFontSize) != nil,
+         let weight = NuggetFontWeights(weightString: key) {
+        fontWeightMapping[weight] = fontName
+      } else {
+        invalidWeightKeys.append(key)
+      }
+    }
+    guard invalidWeightKeys.isEmpty else {
+      NSLog("[NuggetRN] Error: fontMapping needs an installed iOS font for %@; custom fonts not applied.",
+            invalidWeightKeys.joined(separator: ", "))
+      return nil
+    }
+    customFontMapping = ClientSideNuggetFontMapping(fontWeightMapping: fontWeightMapping)
+  }
+}
+
+fileprivate struct ClientSideNuggetFontMapping: NuggetFontPropertiesMapping {
+  // Required by the protocol, but the SDK doesn't read them.
+  let fontName = "NuggetRN"
+  let fontFamily = "NuggetRN"
+
+  let fontWeightMapping: [NuggetFontWeights: String]
+
+  /// The SDK's default sizes. This switches on the case because `NuggetFontSizes`' `rawValue`,
+  /// `==` and hashing all call back into this method.
+  func fontSizeMapping(fontSize: NuggetFontSizes) -> Int {
+    switch fontSize {
+    case .font050: return 10
+    case .font100: return 12
+    case .font200: return 13
+    case .font300: return 14
+    case .font400: return 16
+    case .font500: return 18
+    case .font600: return 20
+    case .font700: return 22
+    case .font800: return 25
+    case .font900: return 28
+    @unknown default: return 14
+    }
+  }
+}
+
 @objc(NuggetRN)
 class NuggetRN: RCTEventEmitter {
   var pendingCompletions: [String: (Any) -> Void] = [:]
@@ -112,6 +170,7 @@ class NuggetRN: RCTEventEmitter {
 
   fileprivate var clientSideNuggetChatBusinessContextDelegate :ClientSideNuggetChatBusinessContextProvider?
   fileprivate var clientSideThemeProviderDelegate :NuggetThemeProviderDelegate?
+  fileprivate var clientSideFontProviderDelegate: NuggetFontProviderDelegate?
   fileprivate var clientNuggetSDKConfiguration :NuggetSDKConfigurationDelegate = ClientNuggetSDKConfiguration()
   fileprivate var nuggetPushNotificationsListener: NuggetPushNotificationsListener = NuggetPushNotificationsListener()
 
@@ -129,12 +188,14 @@ class NuggetRN: RCTEventEmitter {
     })
     clientSideNuggetChatBusinessContextDelegate = ClientSideNuggetChatBusinessContextProvider(params: chatSupportBusinessContext)
     clientSideThemeProviderDelegate = ClientSideNuggetThemeProvider(lightModeAccentColorData: lightModeAccentColorData, darkModeAccentColorData: darkModeAccentColorData, isDarkModeEnabled: isDarkModeEnabled)
+    clientSideFontProviderDelegate = ClientSideNuggetFontProvider(fontData: fontData)
     nuggetFactory = NuggetSDK.initializeNuggetFactory(
       authDelegate: self,
       sdkConfigurationDelegate: clientNuggetSDKConfiguration,
       notificationDelegate: nuggetPushNotificationsListener,
       chatBusinessContextDelegate: clientSideNuggetChatBusinessContextDelegate,
-      customThemeProviderDelegate: clientSideThemeProviderDelegate
+      customThemeProviderDelegate: clientSideThemeProviderDelegate,
+      customFontProviderDelegate: clientSideFontProviderDelegate
     )
   }
 

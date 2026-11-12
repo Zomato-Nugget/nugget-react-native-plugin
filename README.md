@@ -205,6 +205,45 @@ NuggetSDK.updateNotificationPermissionStatus(hasNotificationPermission);
 ```
 It's crucial to keep the Nugget SDK updated with the current notification token and permission status to ensure correct behavior regarding push notifications.
 
+### 6. Custom Fonts
+
+To show chat text in your own fonts, pass a `FontData` object as the sixth argument of `NuggetSDK.getInstance`:
+
+```typescript
+import { Platform } from 'react-native';
+import type { FontData } from 'nugget-rn';
+
+const fontData: FontData = {
+  fontMapping: Platform.OS === 'ios'
+    ? new Map<string, string>([
+        ['light', 'Pixar-Light'], ['regular', 'Pixar-Regular'], ['medium', 'Pixar-Medium'],
+        ['semibold', 'Pixar-SemiBold'], ['bold', 'Pixar-Bold'], ['extrabold', 'Pixar-ExtraBold'],
+        ['black', 'Pixar-Black'],
+      ])
+    : new Map<string, string>([
+        ['regular', 'pixarRegular'],
+        ['bold', 'pixarBold'],
+      ]),
+};
+
+const nuggetSDK = NuggetSDK.getInstance(
+  nuggetSDKConfig,
+  chatContext,
+  false,     // handleDeeplinkInsideApp
+  undefined, // lightModeAccentColorData
+  undefined, // darkModeAccentColorData
+  fontData,
+);
+```
+
+- **Keys** are font weights: `light`, `regular`, `medium`, `semibold`, `bold` and `extrabold`, plus `thin` and `extralight` (Android only) and `black` (iOS only).
+- **Values** name the font for each weight, so they differ by platform (see `Platform.OS` above):
+  - **Android:** the name of a text appearance style in your app's resources, e.g. `pixarRegular` for `<style name="pixarRegular">` that sets `android:fontFamily`.
+  - **iOS:** the PostScript name of an installed font, e.g. `Pixar`. Add the font file to the iOS app target and list it under `UIAppFonts` in `Info.plist`.
+- On iOS, all seven weights (`light`, `regular`, `medium`, `semibold`, `bold`, `extrabold`, `black`) must map to installed fonts. Otherwise the fonts aren't applied and an error starting with `[NuggetRN] Error:` is logged.
+- Without `fontData`, or with an empty `fontMapping`, chat uses the SDK's default fonts.
+- On iOS, fonts can't change while the app is running. Changes take effect the next time the app launches.
+
 ## API Reference
 
 This section details the main classes, interfaces, and methods provided by the Nugget React Native SDK.
@@ -248,6 +287,13 @@ Object representing user authentication information.
 | Property      | Type     | Description                |
 | ------------- | -------- | -------------------------- |
 | `accessToken` | `string` | The user's access token.   |
+
+#### `FontData`
+Optional custom fonts for the chat UI. See [Custom Fonts](#6-custom-fonts).
+
+| Property      | Type                  | Description |
+| ------------- | --------------------- | ----------- |
+| `fontMapping` | `Map<string, string>` | Font for each weight, e.g. `regular` → `pixarRegular`. See [Custom Fonts](#6-custom-fonts) for what the values mean on each platform. |
 
 ## Troubleshooting
 

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useMemo } from 'react';
+import { Platform } from 'react-native';
 import { NuggetSDK } from 'nugget-rn';
 import type { NuggetAuthProvider, NuggetAuthUserInfo, NuggetChatBusinessContext, NuggetJumborConfiguration , AccentColorData , FontData } from 'nugget-rn';
 
@@ -85,10 +86,17 @@ export const NuggetSDKProvider: React.FC<NuggetSDKProviderProps> = ({
         const darkModeAccentColorData : AccentColorData = {
                hex : '#FFF000'
        }
+        // Android takes text appearance style names. iOS takes installed font names for all seven
+        // weights; Pixar has a single face, so every weight uses it.
         const fontData : FontData = {
-             fontMapping : new Map<string, string>([
-                 ['regular' , 'pixarRegular']
-             ])
+             fontMapping : Platform.OS === 'ios'
+                 ? new Map<string, string>([
+                     ['light', 'Pixar'], ['regular', 'Pixar'], ['medium', 'Pixar'], ['semibold', 'Pixar'],
+                     ['bold', 'Pixar'], ['extrabold', 'Pixar'], ['black', 'Pixar'],
+                 ])
+                 : new Map<string, string>([
+                     ['regular' , 'pixarRegular']
+                 ])
            }
         const handleDeeplinkInsideApp : boolean = false;
         const isDarkModeEnabled : boolean = false;
