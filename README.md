@@ -6,7 +6,7 @@ A React Native SDK for integrating Nugget's functionality into your mobile appli
 
 - React Native version: 0.73.2 or higher
 - iOS:
-  - Minimum iOS version: 14.0
+  - Minimum iOS version: 15.0
   - Xcode: Supported only till XCode 16.2
 - Android:
   - compileSdkVersion: 35 or higher
