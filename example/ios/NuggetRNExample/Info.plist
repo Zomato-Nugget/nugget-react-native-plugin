@@ -46,6 +46,16 @@
 			</array>
 		</dict>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>NuggetRNExample</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>nuggetrnexample</string>
+			</array>
+		</dict>
+		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>DOT_REVERSED_GOOGLE_CLIENT_ID</string>

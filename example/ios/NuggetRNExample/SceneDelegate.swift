@@ -37,6 +37,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window.makeKeyAndVisible()
   }
 
+  // MARK: - Deeplinks
+
+  /// Passes a deeplink opened while the app is running to React Native, which sends it to
+  /// JavaScript as a `Linking` `url` event.
+  ///
+  /// This includes a link tapped inside the Nugget chat: the SDK asks the system to open it, and
+  /// the system delivers it back here.
+  func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+    for context in URLContexts {
+      RCTLinkingManager.application(UIApplication.shared, open: context.url, options: [:])
+    }
+  }
+
   // MARK: - Geometry changes
 
   // React Native updates `Dimensions` (e.g. on rotation) when RCTWindowFrameDidChangeNotification

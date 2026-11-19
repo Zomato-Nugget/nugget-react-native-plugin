@@ -11,7 +11,8 @@ public class MainActivity extends ReactActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    // react-native-screens can't restore its screens from saved state, so start without it.
+    super.onCreate(null);
   }
 
   /**
