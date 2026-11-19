@@ -276,10 +276,6 @@ export class NuggetSDK {
      * was no presented Nugget screen to close (always false on Android)
      */
     public async closeNuggetSDK(): Promise<boolean> {
-        // Android has no native `closeNuggetSDK`, so return before touching the native module.
-        if (Platform.OS !== 'ios') {
-            return false;
-        }
         const result = await NuggetPlugin.closeNuggetSDK();
         return result?.nuggetSDKResult === true;
     }
