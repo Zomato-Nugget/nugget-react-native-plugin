@@ -1,11 +1,11 @@
 import React from 'react';
 import { NuggetSDKProvider } from './components/NuggetSDKProvider';
-import NuggetMockScreen from './NuggetMockScreen';
+import { AppNavigator } from './navigation';
 
 export default function App() {
   return (
     <NuggetSDKProvider nameSpace="example-namespace">
-      <NuggetMockScreen />
+      <AppNavigator />
     </NuggetSDKProvider>
   );
 }
