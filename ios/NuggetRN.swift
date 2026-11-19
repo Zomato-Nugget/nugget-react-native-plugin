@@ -145,6 +145,10 @@ class NuggetRN: RCTEventEmitter {
   var pendingCompletions: [String: (Any) -> Void] = [:]
   var nuggetFactory: NuggetFactory?
 
+  /// The navigation controller that `openNuggetSDK` last put on screen. Weak, so it becomes `nil`
+  /// once the Nugget screen has closed.
+  private weak var nuggetNavigationController: UINavigationController?
+
   // Required for RCTEventEmitter
   override static func requiresMainQueueSetup() -> Bool {
     return false
@@ -239,6 +243,7 @@ class NuggetRN: RCTEventEmitter {
 
         let chatNavigationController = UINavigationController(rootViewController: viewController)
         chatNavigationController.modalPresentationStyle = .fullScreen
+        self.nuggetNavigationController = chatNavigationController
 
         if shouldPresent {
             topVC.present(chatNavigationController, animated: true)
@@ -254,6 +259,44 @@ class NuggetRN: RCTEventEmitter {
         }
     }
 }
+
+  /// Closes the Nugget screen that `openNuggetSDK` presented, by dismissing its navigation
+  /// controller. The SDK's own back-button handling isn't run.
+  ///
+  /// Resolves with `nuggetSDKResult: true` once the screen is dismissed, and with `false` when no
+  /// presented Nugget screen is open. Never rejects.
+  @objc
+  func closeNuggetSDK(_ resolve: @escaping RCTPromiseResolveBlock,
+                      rejecter reject: @escaping RCTPromiseRejectBlock) {
+    DispatchQueue.main.async {
+      self.dismissPresentedNuggetScreen { didDismiss in
+        resolve(["nuggetSDKResult": didDismiss])
+      }
+    }
+  }
+
+  /// Dismisses the presented Nugget screen, then calls `completion` on the main queue with whether
+  /// there was one to dismiss.
+  private func dismissPresentedNuggetScreen(completion: @escaping (Bool) -> Void) {
+    guard let chatNavigationController = nuggetNavigationController,
+          let presenter = chatNavigationController.presentingViewController else {
+      completion(false)
+      return
+    }
+
+    // UIKit ignores a dismiss made while the screen is still animating in or out, so wait for
+    // that transition to end and then look again.
+    if let coordinator = chatNavigationController.transitionCoordinator {
+      let isWaiting = coordinator.animate(alongsideTransition: nil) { _ in
+        self.dismissPresentedNuggetScreen(completion: completion)
+      }
+      if isWaiting { return }
+    }
+
+    presenter.dismiss(animated: true) {
+      completion(true)
+    }
+  }
 
   @MainActor @available(iOS 13.0, *)
   private func getRootViewControllerFromWindowScene() -> UIViewController? {

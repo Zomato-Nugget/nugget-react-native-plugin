@@ -9,6 +9,8 @@ RCT_EXTERN_METHOD(canOpenDeeplink:(NSString *)deeplink resolver:(RCTPromiseResol
 
 RCT_EXTERN_METHOD(openNuggetSDK:(NSString *)deeplink shouldPresent:(BOOL)shouldPresent resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(closeNuggetSDK:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+
 RCT_EXTERN_METHOD(initializeNuggetFactory:(NSDictionary *)sdkConfiguration
                   chatSupportBusinessContext:(NSDictionary *)chatSupportBusinessContext
                   handleDeeplinkInsideApp:(nonnull NSNumber *)handleDeeplinkInsideApp

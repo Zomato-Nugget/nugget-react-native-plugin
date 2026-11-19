@@ -183,6 +183,29 @@ async function handleDeeplink() {
 handleDeeplink();
 ```
 
+#### Closing the SDK before navigating (iOS)
+
+On iOS the Nugget screen sits above your React Native screens. If you navigate to one of your own screens while it is open (for example, when the user taps a deeplink inside the chat), that screen opens underneath the chat and only shows once the chat is closed.
+
+Call `closeNuggetSDK()` and await it before you navigate:
+
+```typescript
+import { Linking } from 'react-native';
+
+Linking.addEventListener('url', async ({ url }) => {
+  // Close the Nugget screen first, so the next screen isn't hidden underneath it.
+  await nuggetSDK.closeNuggetSDK();
+
+  // Then navigate to your own screen for `url`.
+});
+```
+
+- It closes a Nugget screen that was presented (`shouldPresent: true`), along with anything the SDK is showing on top of it.
+- It resolves to `true` once the Nugget screen has closed, and to `false` when there was no presented Nugget screen to close, so it is safe to call every time.
+- The screen is dismissed directly, so the callback set with `setChatScreenClosedCallback` is not called for a close made this way. Use the returned promise instead.
+
+> **Android:** `closeNuggetSDK()` does nothing and resolves to `false`. The chat runs in its own activity, and Android already closes it when your app's `singleTask` main activity receives the link.
+
 ### 5. Handling Notifications
 
 The SDK provides static methods to update the push notification token and permission status. These methods can be called even before the SDK is fully initialized with `NuggetSDK.getInstance()`. If called before initialization, the token and permission status are cached and automatically sent to the native Nugget SDK once `openNuggetSDK()` is successfully called.
@@ -261,6 +284,7 @@ The primary class for interacting with the SDK.
 | `setChatScreenClosedCallback(callback: () => void)` | Provides callback when chat is closed. The callback closure is called when chat is closed | `callback: () => void` | `void` |
 | `canOpenDeeplink(deeplink: string)`         | Checks if the Nugget SDK can handle the given deeplink.                                                    | `deeplink: string`                               | `Promise<boolean>`                     |
 | `openNuggetSDK(deeplink: string, shouldPresent?: boolean)` | Opens the Nugget SDK with the specified deeplink. On iOS, `shouldPresent: true` presents modally; `false` (default) pushes onto the navigation stack. No effect on Android. | `deeplink: string`, `shouldPresent?: boolean` (default `false`) | `Promise<boolean>` |
+| `closeNuggetSDK()` | Closes the presented Nugget screen opened by `openNuggetSDK`. iOS only; on Android it does nothing and resolves to `false`. | None | `Promise<boolean>` (`true` once closed, `false` if nothing was open) |
 | `static updateNotificationToken(token: string)` | Updates the push notification token. Caches token if SDK not initialized, sends on `openNuggetSDK`.      | `token: string`                                    | `void`                                 |
 | `static updateNotificationPermissionStatus(notificationAllowed: boolean)` | Updates the notification permission status. Caches status if SDK not initialized, sends on `openNuggetSDK`. | `notificationAllowed: boolean`                   | `void`                                 |
 

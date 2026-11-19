@@ -391,6 +391,12 @@ class NuggetRN(private val reactContext: ReactApplicationContext) :
     }
   }
 
+  // iOS only. On Android the chat runs in its own activity, so there is nothing to close here.
+  @ReactMethod
+  fun closeNuggetSDK(promise: Promise) {
+    promise.resolve(false)
+  }
+
 
   @ReactMethod
   fun updateBusinessContext(businessContext: ReadableMap?) {

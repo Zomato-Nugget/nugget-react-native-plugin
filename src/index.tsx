@@ -259,6 +259,27 @@ export class NuggetSDK {
         }
     }
 
+    /**
+     * Closes the Nugget screen opened by `openNuggetSDK`. iOS only.
+     *
+     * On iOS the Nugget screen sits above your React Native screens, so a screen you navigate to
+     * while it is open stays hidden underneath it. Await this before navigating to your own
+     * screen, for example when handling a deeplink tapped inside the chat.
+     *
+     * The screen is dismissed directly, so the callback set with `setChatScreenClosedCallback`
+     * is not called for a close made this way.
+     *
+     * On Android this does nothing and resolves to false: the chat runs in its own activity, and
+     * the OS already closes it when your app's `singleTask` main activity receives the link.
+     *
+     * @returns Promise resolving to true once the Nugget screen has closed, or false when there
+     * was no presented Nugget screen to close (always false on Android)
+     */
+    public async closeNuggetSDK(): Promise<boolean> {
+        const result = await NuggetPlugin.closeNuggetSDK();
+        return result?.nuggetSDKResult === true;
+    }
+
 
     public updateBusinessContext(chatSupportBusinessContext: NuggetChatBusinessContext){
       if (!NuggetSDK.instance) {
